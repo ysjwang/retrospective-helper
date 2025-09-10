@@ -515,6 +515,113 @@ function resetForm() {
   document.getElementById('retrospective-form').reset();
 }
 
+function addItemToColumn(item) {
+  const categoryMap = {
+    'continue': 'continue-column',
+    'start': 'start-column', 
+    'stop': 'stop-column',
+    'misc': 'misc-column'
+  };
+  
+  const columnId = categoryMap[item.category];
+  const column = document.getElementById(columnId);
+  
+  if (!column) {
+    console.error('Column not found:', columnId);
+    return;
+  }
+  
+  // Remove "No items yet" message if it exists
+  const noItemsMessage = column.querySelector('.text-gray-500.text-center.py-8.italic');
+  if (noItemsMessage) {
+    noItemsMessage.remove();
+  }
+  
+  // Create the new item element
+  const itemElement = createItemElement(item, columnId);
+  
+  // Add the item to the column
+  column.appendChild(itemElement);
+  
+  // Add a subtle animation effect
+  itemElement.style.opacity = '0';
+  itemElement.style.transform = 'translateY(-10px)';
+  setTimeout(() => {
+    itemElement.style.transition = 'opacity 0.3s ease, transform 0.3s ease';
+    itemElement.style.opacity = '1';
+    itemElement.style.transform = 'translateY(0)';
+  }, 10);
+}
+
+function createItemElement(item, columnId) {
+  const div = document.createElement('div');
+  
+  // Determine styling based on column
+  let borderColor, textColor, textShadow, dueDateColor;
+  switch(columnId) {
+    case 'continue-column':
+      borderColor = 'border-lime-400/30';
+      textColor = 'text-lime-200';
+      textShadow = 'text-shadow: 0 0 5px #84cc16;';
+      dueDateColor = 'text-lime-400';
+      break;
+    case 'start-column':
+      borderColor = 'border-blue-400/30';
+      textColor = 'text-blue-200';
+      textShadow = 'text-shadow: 0 0 5px #3b82f6;';
+      dueDateColor = 'text-blue-400';
+      break;
+    case 'stop-column':
+      borderColor = 'border-red-400/30';
+      textColor = 'text-red-200';
+      textShadow = 'text-shadow: 0 0 5px #ef4444;';
+      dueDateColor = 'text-red-400';
+      break;
+    case 'misc-column':
+      borderColor = 'border-purple-400/30';
+      textColor = 'text-purple-200';
+      textShadow = 'text-shadow: 0 0 5px #a855f7;';
+      dueDateColor = 'text-purple-400';
+      break;
+  }
+  
+  const name = item.name || '(No title)';
+  const comments = item.comments || 'No comments';
+  const dueDate = item.due_date ? `<div class="text-xs ${dueDateColor}">Due: ${item.due_date}</div>` : '';
+  
+  div.className = `bg-gray-700/50 border ${borderColor} rounded-lg p-3 hover:bg-gray-700/70 transition-colors duration-200`;
+  div.innerHTML = `
+    <h4 class="${textColor} font-semibold mb-2" style="${textShadow}">
+      ${name}
+    </h4>
+    <p class="text-gray-300 text-sm mb-2">
+      ${comments}
+    </p>
+    ${dueDate}
+  `;
+  
+  return div;
+}
+
+function updateColumnCounters() {
+  // Update each column's counter
+  const columns = [
+    { id: 'continue-column', counterSelector: '.bg-lime-600' },
+    { id: 'start-column', counterSelector: '.bg-blue-600' },
+    { id: 'stop-column', counterSelector: '.bg-red-600' },
+    { id: 'misc-column', counterSelector: '.bg-purple-600' }
+  ];
+  
+  columns.forEach(column => {
+    const columnElement = document.getElementById(column.id);
+    const counterElement = columnElement.querySelector(column.counterSelector);
+    if (counterElement) {
+      const currentCount = columnElement.children.length;
+      counterElement.textContent = currentCount;
+    }
+  });
+}
+
 function submitForm(event) {
   event.preventDefault();
   
@@ -541,13 +648,15 @@ function submitForm(event) {
     },
     body: JSON.stringify(formData)
   })
-  .then(response => {
-    if (response.ok) {
+  .then(response => response.json())
+  .then(data => {
+    if (data.status === 'success') {
       closeModal();
-      // You could add a success message here
+      addItemToColumn(data.item);
+      updateColumnCounters();
       showSuccessMessage();
     } else {
-      throw new Error('Failed to save item');
+      throw new Error(data.message || 'Failed to save item');
     }
   })
   .catch(error => {
@@ -568,11 +677,10 @@ function showSuccessMessage() {
   successDiv.textContent = '✓ Retrospective item saved successfully!';
   document.body.appendChild(successDiv);
   
-  // Reload the page to show the new item
+  // Remove the success message after 2 seconds
   setTimeout(() => {
     successDiv.remove();
-    window.location.reload();
-  }, 1500);
+  }, 2000);
 }
 
 // Close modal when clicking outside

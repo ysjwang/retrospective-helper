@@ -6,7 +6,17 @@ class RetrospectiveItemsController < ApplicationController
     @retrospective_item = @retrospective_session.retrospective_items.build(retrospective_item_params)
     
     if @retrospective_item.save
-      render json: { status: 'success', message: 'Retrospective item created successfully' }
+      render json: { 
+        status: 'success', 
+        message: 'Retrospective item created successfully',
+        item: {
+          id: @retrospective_item.id,
+          category: @retrospective_item.category,
+          name: @retrospective_item.name,
+          comments: @retrospective_item.comments,
+          due_date: @retrospective_item.due_date&.strftime("%b %d, %Y")
+        }
+      }
     else
       render json: { status: 'error', message: @retrospective_item.errors.full_messages.join(', ') }, status: :unprocessable_entity
     end
