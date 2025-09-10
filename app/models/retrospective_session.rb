@@ -1,4 +1,6 @@
 class RetrospectiveSession < ApplicationRecord
+  has_many :retrospective_items, dependent: :destroy
+
   before_validation :generate_uuid, on: :create
 
   validates :uuid, presence: true, uniqueness: true

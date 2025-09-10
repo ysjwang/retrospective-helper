@@ -10,9 +10,20 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.0].define(version: 2025_09_10_152115) do
+ActiveRecord::Schema[8.0].define(version: 2025_09_10_153751) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_catalog.plpgsql"
+
+  create_table "retrospective_items", force: :cascade do |t|
+    t.bigint "retrospective_session_id", null: false
+    t.string "name"
+    t.text "comments"
+    t.date "due_date"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.integer "category", default: 0
+    t.index ["retrospective_session_id"], name: "index_retrospective_items_on_retrospective_session_id"
+  end
 
   create_table "retrospective_sessions", force: :cascade do |t|
     t.string "uuid"
@@ -20,4 +31,6 @@ ActiveRecord::Schema[8.0].define(version: 2025_09_10_152115) do
     t.datetime "updated_at", null: false
     t.index ["uuid"], name: "index_retrospective_sessions_on_uuid", unique: true
   end
+
+  add_foreign_key "retrospective_items", "retrospective_sessions"
 end

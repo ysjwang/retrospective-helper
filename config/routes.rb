@@ -10,7 +10,9 @@ Rails.application.routes.draw do
   # get "service-worker" => "rails/pwa#service_worker", as: :pwa_service_worker
 
   # Retrospective sessions
-  resources :retrospective_sessions, only: [:show, :create]
+  resources :retrospective_sessions, only: [:show, :create] do
+    resources :retrospective_items, only: [:create], path: 'items'
+  end
   
   # Custom route for retro sessions using UUID
   get "retro/:uuid", to: "retrospective_sessions#show_by_uuid", as: :retro_session

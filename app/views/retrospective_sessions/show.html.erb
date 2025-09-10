@@ -104,6 +104,111 @@
 
   <!-- Bottom neon line -->
   <div class="absolute bottom-0 left-0 right-0 h-1 bg-gradient-to-r from-transparent via-lime-400 to-transparent"></div>
+
+  <!-- Floating Add Button -->
+  <button 
+    onclick="openModal()" 
+    class="fixed bottom-8 right-8 w-16 h-16 bg-gradient-to-r from-lime-600 to-lime-500 hover:from-lime-500 hover:to-lime-400 text-black font-bold text-2xl rounded-full transform transition-all duration-300 hover:scale-110 hover:shadow-2xl border-2 border-lime-400 z-50 flex items-center justify-center"
+    style="box-shadow: 0 0 20px #84cc16, 0 0 40px #84cc16;"
+  >
+    +
+  </button>
+</div>
+
+<!-- Modal -->
+<div id="retrospective-modal" class="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 hidden">
+  <div class="bg-gray-900 border-2 border-lime-400 rounded-lg p-8 w-full max-w-md mx-4 relative">
+    <!-- Close button -->
+    <button 
+      onclick="closeModal()" 
+      class="absolute top-4 right-4 text-lime-400 hover:text-lime-300 text-2xl font-bold"
+    >
+      ×
+    </button>
+    
+    <!-- Modal title -->
+    <h2 class="text-2xl font-bold text-lime-300 mb-6 text-center" style="text-shadow: 0 0 10px #84cc16;">
+      Add Retrospective Item
+    </h2>
+    
+    <!-- Form -->
+    <form id="retrospective-form" onsubmit="submitForm(event)">
+      <!-- Category selection -->
+      <div class="mb-6">
+        <label class="block text-lime-300 text-sm font-bold mb-2" style="text-shadow: 0 0 10px #84cc16;">
+          Category *
+        </label>
+        <select 
+          id="category" 
+          required
+          class="w-full px-4 py-3 bg-gray-800 border-2 border-lime-400 rounded-lg text-lime-300 focus:outline-none focus:border-lime-300 focus:ring-2 focus:ring-lime-400/20"
+        >
+          <option value="">Select a category</option>
+          <option value="0">Continue</option>
+          <option value="1">Start</option>
+          <option value="2">Stop</option>
+          <option value="3">Misc</option>
+        </select>
+      </div>
+      
+      <!-- Name field -->
+      <div class="mb-6">
+        <label class="block text-lime-300 text-sm font-bold mb-2" style="text-shadow: 0 0 10px #84cc16;">
+          Name
+        </label>
+        <input 
+          type="text" 
+          id="name" 
+          maxlength="255"
+          class="w-full px-4 py-3 bg-gray-800 border-2 border-lime-400 rounded-lg text-lime-300 focus:outline-none focus:border-lime-300 focus:ring-2 focus:ring-lime-400/20"
+          placeholder="Enter item name (optional)"
+        />
+      </div>
+      
+      <!-- Comments field -->
+      <div class="mb-6">
+        <label class="block text-lime-300 text-sm font-bold mb-2" style="text-shadow: 0 0 10px #84cc16;">
+          Comments
+        </label>
+        <textarea 
+          id="comments" 
+          rows="4" 
+          maxlength="1000"
+          class="w-full px-4 py-3 bg-gray-800 border-2 border-lime-400 rounded-lg text-lime-300 focus:outline-none focus:border-lime-300 focus:ring-2 focus:ring-lime-400/20 resize-none"
+          placeholder="Enter comments (optional)"
+        ></textarea>
+      </div>
+      
+      <!-- Due date field -->
+      <div class="mb-8">
+        <label class="block text-lime-300 text-sm font-bold mb-2" style="text-shadow: 0 0 10px #84cc16;">
+          Due Date
+        </label>
+        <input 
+          type="date" 
+          id="due_date" 
+          class="w-full px-4 py-3 bg-gray-800 border-2 border-lime-400 rounded-lg text-lime-300 focus:outline-none focus:border-lime-300 focus:ring-2 focus:ring-lime-400/20"
+        />
+      </div>
+      
+      <!-- Action buttons -->
+      <div class="flex space-x-4">
+        <button 
+          type="button" 
+          onclick="closeModal()" 
+          class="flex-1 px-6 py-3 bg-gray-700 hover:bg-gray-600 text-lime-300 font-bold rounded-lg transform transition-all duration-300 hover:scale-105 border-2 border-gray-500"
+        >
+          Cancel
+        </button>
+        <button 
+          type="submit" 
+          class="flex-1 px-6 py-3 bg-gradient-to-r from-lime-600 to-lime-500 hover:from-lime-500 hover:to-lime-400 text-black font-bold rounded-lg transform transition-all duration-300 hover:scale-105 hover:shadow-2xl border-2 border-lime-400"
+        >
+          Save
+        </button>
+      </div>
+    </form>
+  </div>
 </div>
 
 <style>
@@ -185,4 +290,98 @@ function copyToClipboard(inputId) {
     }
   });
 }
+
+// Modal functions
+function openModal() {
+  const modal = document.getElementById('retrospective-modal');
+  modal.classList.remove('hidden');
+  document.body.style.overflow = 'hidden'; // Prevent background scrolling
+}
+
+function closeModal() {
+  const modal = document.getElementById('retrospective-modal');
+  modal.classList.add('hidden');
+  document.body.style.overflow = 'auto'; // Restore scrolling
+  resetForm();
+}
+
+function resetForm() {
+  document.getElementById('retrospective-form').reset();
+}
+
+function submitForm(event) {
+  event.preventDefault();
+  
+  const formData = {
+    retrospective_item: {
+      category: parseInt(document.getElementById('category').value),
+      name: document.getElementById('name').value,
+      comments: document.getElementById('comments').value,
+      due_date: document.getElementById('due_date').value
+    }
+  };
+  
+  // Show loading state
+  const submitButton = event.target.querySelector('button[type="submit"]');
+  const originalText = submitButton.textContent;
+  submitButton.textContent = 'Saving...';
+  submitButton.disabled = true;
+  
+  // Submit the form
+  fetch(`/retrospective_sessions/<%= @retrospective_session.id %>/items`, {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json'
+    },
+    body: JSON.stringify(formData)
+  })
+  .then(response => {
+    if (response.ok) {
+      closeModal();
+      // You could add a success message here
+      showSuccessMessage();
+    } else {
+      throw new Error('Failed to save item');
+    }
+  })
+  .catch(error => {
+    console.error('Error:', error);
+    alert('Failed to save the retrospective item. Please try again.');
+  })
+  .finally(() => {
+    // Reset button state
+    submitButton.textContent = originalText;
+    submitButton.disabled = false;
+  });
+}
+
+function showSuccessMessage() {
+  // Create a temporary success message
+  const successDiv = document.createElement('div');
+  successDiv.className = 'fixed top-4 right-4 bg-green-600 text-white px-6 py-3 rounded-lg shadow-lg z-50 transform transition-all duration-300';
+  successDiv.textContent = '✓ Retrospective item saved successfully!';
+  document.body.appendChild(successDiv);
+  
+  // Remove after 3 seconds
+  setTimeout(() => {
+    successDiv.remove();
+  }, 3000);
+}
+
+// Close modal when clicking outside
+document.getElementById('retrospective-modal').addEventListener('click', function(e) {
+  if (e.target === this) {
+    closeModal();
+  }
+});
+
+// Close modal with Escape key
+document.addEventListener('keydown', function(e) {
+  if (e.key === 'Escape') {
+    const modal = document.getElementById('retrospective-modal');
+    if (!modal.classList.contains('hidden')) {
+      closeModal();
+    }
+  }
+});
 </script>
