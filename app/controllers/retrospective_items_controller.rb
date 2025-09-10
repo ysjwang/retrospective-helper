@@ -14,7 +14,8 @@ class RetrospectiveItemsController < ApplicationController
           category: @retrospective_item.category,
           name: @retrospective_item.name,
           comments: @retrospective_item.comments,
-          due_date: @retrospective_item.due_date&.strftime("%b %d, %Y")
+          due_date: @retrospective_item.due_date&.strftime("%b %d, %Y"),
+          person: @retrospective_item.person
         }
       }
     else
@@ -25,6 +26,6 @@ class RetrospectiveItemsController < ApplicationController
   private
 
   def retrospective_item_params
-    params.require(:retrospective_item).permit(:category, :name, :comments, :due_date)
+    params.require(:retrospective_item).permit(:category, :name, :comments, :due_date, :person)
   end
 end
