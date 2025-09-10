@@ -1,7 +1,7 @@
 class RetrospectiveItem < ApplicationRecord
   belongs_to :retrospective_session
 
-  enum :category, [:continue, :start, :stop, :misc]
+  enum :category, { continue: 0, start: 1, stop: 2, misc: 3 }
 
   validates :category, presence: true, inclusion: { in: categories.keys }
   validates :name, length: { maximum: 255 }, allow_blank: true
