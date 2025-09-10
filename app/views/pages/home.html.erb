@@ -48,18 +48,20 @@
     </p>
 
     <!-- CTA Button with cyberpunk styling -->
-    <button class="group relative px-12 py-6 bg-gradient-to-r from-lime-600 to-lime-500 hover:from-lime-500 hover:to-lime-400 text-black font-bold text-xl rounded-lg transform transition-all duration-300 hover:scale-105 hover:shadow-2xl border-2 border-lime-400 overflow-hidden">
-      <!-- Button glow effect -->
-      <div class="absolute inset-0 bg-gradient-to-r from-lime-400/20 to-yellow-400/20 opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
-      
-      <!-- Button text -->
-      <span class="relative z-10 tracking-wider" style="text-shadow: 0 0 10px #000000;">
-        START NEW RETRO
-      </span>
-      
-      <!-- Animated border -->
-      <div class="absolute inset-0 border-2 border-lime-400 rounded-lg animate-pulse opacity-50"></div>
-    </button>
+    <%= form_with url: retrospective_sessions_path, method: :post, local: true, class: "inline-block" do %>
+      <button type="submit" class="group relative px-12 py-6 bg-gradient-to-r from-lime-600 to-lime-500 hover:from-lime-500 hover:to-lime-400 text-black font-bold text-xl rounded-lg transform transition-all duration-300 hover:scale-105 hover:shadow-2xl border-2 border-lime-400 overflow-hidden">
+        <!-- Button glow effect -->
+        <div class="absolute inset-0 bg-gradient-to-r from-lime-400/20 to-yellow-400/20 opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
+        
+        <!-- Button text -->
+        <span class="relative z-10 tracking-wider" style="text-shadow: 0 0 10px #000000;">
+          START NEW RETRO
+        </span>
+        
+        <!-- Animated border -->
+        <div class="absolute inset-0 border-2 border-lime-400 rounded-lg animate-pulse opacity-50"></div>
+      </button>
+    <% end %>
 
     <!-- Decorative elements -->
     <div class="mt-16 flex space-x-8">
