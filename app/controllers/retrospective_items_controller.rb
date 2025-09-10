@@ -9,6 +9,9 @@ class RetrospectiveItemsController < ApplicationController
       # Broadcast the new item to all subscribers of this retrospective session
       begin
         Rails.logger.info "ActionCable: Broadcasting item_created for session #{@retrospective_session.id}"
+        Rails.logger.info "ActionCable: Current database connection: #{ActiveRecord::Base.connection.current_database}"
+        Rails.logger.info "ActionCable: Solid Cable tables exist: #{ActiveRecord::Base.connection.table_exists?('solid_cable_messages')}"
+        
         RetrospectiveSessionChannel.broadcast_to(@retrospective_session, {
           type: 'item_created',
           item: {
