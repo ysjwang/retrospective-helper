@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html>
+<html class="h-full w-full">
   <head>
     <title><%= content_for(:title) || "Retrospective Helper" %></title>
     <meta name="viewport" content="width=device-width,initial-scale=1">
@@ -22,7 +22,9 @@
     <%= javascript_importmap_tags %>
   </head>
 
-  <body>
-    <%= yield %>
+  <body class="m-0 p-0 overflow-hidden">
+    <main class="w-full h-full">
+      <%= yield %>
+    </main>
   </body>
 </html>

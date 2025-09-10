@@ -1,0 +1,223 @@
+<div class="h-screen w-screen bg-gradient-to-br from-purple-900 via-blue-900 to-indigo-900 relative overflow-hidden fixed inset-0">
+  <!-- Animated background grid -->
+  <div class="absolute inset-0 opacity-20">
+    <div class="grid grid-cols-12 gap-4 h-full">
+      <% 12.times do |i| %>
+        <div class="border-l border-cyan-400/30 animate-pulse" style="animation-delay: <%= i * 0.1 %>s;"></div>
+      <% end %>
+    </div>
+  </div>
+
+  <!-- Tron-style moving grid on bottom half -->
+  <div class="absolute bottom-0 left-0 right-0 h-1/2 overflow-hidden">
+    <div class="tron-grid-container">
+      <div class="tron-grid"></div>
+      <div class="tron-grid" style="animation-delay: -1.5s;"></div>
+    </div>
+  </div>
+
+  <!-- Random floating geometric shapes -->
+  <div class="random-shape" data-shape="0"></div>
+  <div class="random-shape" data-shape="1"></div>
+  <div class="random-shape" data-shape="2"></div>
+  <div class="random-shape" data-shape="3"></div>
+  <div class="random-shape" data-shape="4"></div>
+  <div class="random-shape" data-shape="5"></div>
+  <div class="random-shape" data-shape="6"></div>
+  <div class="random-shape" data-shape="7"></div>
+  <div class="random-shape" data-shape="8"></div>
+  <div class="random-shape" data-shape="9"></div>
+  <div class="random-shape" data-shape="10"></div>
+  <div class="random-shape" data-shape="11"></div>
+  <div class="random-shape" data-shape="12"></div>
+  <div class="random-shape" data-shape="13"></div>
+  <div class="random-shape" data-shape="14"></div>
+
+  <!-- Main content -->
+  <div class="relative z-10 flex flex-col items-center justify-center min-h-screen px-4">
+    <!-- Glowing title -->
+    <h1 class="text-6xl md:text-8xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-cyan-400 via-pink-500 to-purple-500 mb-8 text-center leading-tight">
+      <span class="drop-shadow-2xl" style="text-shadow: 0 0 20px #00ffff, 0 0 40px #00ffff, 0 0 60px #00ffff;">WELCOME TO</span>
+      <br>
+      <span class="drop-shadow-2xl" style="text-shadow: 0 0 20px #ff00ff, 0 0 40px #ff00ff, 0 0 60px #ff00ff;">RETRO HELPER</span>
+    </h1>
+
+    <!-- Subtitle with neon effect -->
+    <p class="text-xl md:text-2xl text-cyan-300 mb-12 text-center max-w-2xl leading-relaxed" style="text-shadow: 0 0 10px #00ffff;">
+      Your digital gateway to the neon-soaked world of team retrospectives
+    </p>
+
+    <!-- CTA Button with cyberpunk styling -->
+    <button class="group relative px-12 py-6 bg-gradient-to-r from-pink-500 to-purple-600 hover:from-pink-400 hover:to-purple-500 text-white font-bold text-xl rounded-lg transform transition-all duration-300 hover:scale-105 hover:shadow-2xl border-2 border-cyan-400 overflow-hidden">
+      <!-- Button glow effect -->
+      <div class="absolute inset-0 bg-gradient-to-r from-cyan-400/20 to-pink-400/20 opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
+      
+      <!-- Button text -->
+      <span class="relative z-10 tracking-wider" style="text-shadow: 0 0 10px #ffffff;">
+        START NEW RETRO
+      </span>
+      
+      <!-- Animated border -->
+      <div class="absolute inset-0 border-2 border-cyan-400 rounded-lg animate-pulse opacity-50"></div>
+    </button>
+
+    <!-- Decorative elements -->
+    <div class="mt-16 flex space-x-8">
+      <div class="w-4 h-4 bg-cyan-400 rounded-full animate-ping"></div>
+      <div class="w-4 h-4 bg-pink-500 rounded-full animate-ping" style="animation-delay: 0.5s;"></div>
+      <div class="w-4 h-4 bg-purple-500 rounded-full animate-ping" style="animation-delay: 1s;"></div>
+    </div>
+  </div>
+
+  <!-- Bottom neon line -->
+  <div class="absolute bottom-0 left-0 right-0 h-1 bg-gradient-to-r from-transparent via-cyan-400 to-transparent"></div>
+</div>
+
+<style>
+  @keyframes neon-pulse {
+    0%, 100% { opacity: 1; }
+    50% { opacity: 0.5; }
+  }
+  
+  .neon-text {
+    animation: neon-pulse 2s ease-in-out infinite alternate;
+  }
+
+  /* Tron-style moving grid - optimized for performance */
+  .tron-grid-container {
+    position: relative;
+    width: 100%;
+    height: 100%;
+    overflow: hidden;
+  }
+
+  .tron-grid {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 200%;
+    background-image: 
+      linear-gradient(90deg, transparent 0%, transparent 48%, #00ffff 49%, #00ffff 51%, transparent 52%, transparent 100%),
+      linear-gradient(0deg, transparent 0%, transparent 48%, #00ffff 49%, #00ffff 51%, transparent 52%, transparent 100%);
+    background-size: 80px 80px;
+    opacity: 0.6;
+    animation: tron-move 4s linear infinite;
+    transform: rotateX(60deg);
+    will-change: transform;
+  }
+
+  @keyframes tron-move {
+    0% {
+      transform: rotateX(60deg) translateY(100%);
+    }
+    100% {
+      transform: rotateX(60deg) translateY(-100%);
+    }
+  }
+
+  /* Random floating shapes - wire-only */
+  .random-shape {
+    position: absolute;
+    border: 2px solid;
+    background: transparent;
+    opacity: 0.7;
+    animation: random-float 8s ease-in-out infinite;
+  }
+
+  @keyframes random-float {
+    0%, 100% { 
+      transform: translate(0, 0) rotate(0deg) scale(1); 
+    }
+    25% { 
+      transform: translate(var(--move-x-1), var(--move-y-1)) rotate(var(--rotate-1)) scale(var(--scale-1)); 
+    }
+    50% { 
+      transform: translate(var(--move-x-2), var(--move-y-2)) rotate(var(--rotate-2)) scale(var(--scale-2)); 
+    }
+    75% { 
+      transform: translate(var(--move-x-3), var(--move-y-3)) rotate(var(--rotate-3)) scale(var(--scale-3)); 
+    }
+  }
+</style>
+
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+  const shapes = document.querySelectorAll('.random-shape');
+  const colors = ['#00ffff', '#ff00ff', '#ff0080', '#8000ff', '#0080ff', '#00ff80', '#ffff00', '#ff8000'];
+  const shapes_types = ['square', 'circle', 'triangle', 'diamond'];
+  
+  shapes.forEach((shape, index) => {
+    // Random position - limited to top half of screen
+    const top = Math.random() * 40 + 5; // 5% to 45% from top (top half only)
+    const left = Math.random() * 80 + 10; // 10% to 90% from left
+    
+    // Random size - bigger minimum
+    const size = Math.random() * 25 + 15; // 15px to 40px
+    
+    // Random color
+    const color = colors[Math.floor(Math.random() * colors.length)];
+    
+    // Random shape type
+    const shapeType = shapes_types[Math.floor(Math.random() * shapes_types.length)];
+    
+    // Random animation duration - doubled minimum speed
+    const duration = Math.random() * 5 + 2.5; // 2.5s to 7.5s (doubled speed)
+    
+    // Random movement values - limited to top half of screen
+    const moveX1 = (Math.random() - 0.5) * 80; // -40px to 40px
+    const moveY1 = (Math.random() - 0.5) * 60; // -30px to 30px (limited vertical movement)
+    const moveX2 = (Math.random() - 0.5) * 80;
+    const moveY2 = (Math.random() - 0.5) * 60;
+    const moveX3 = (Math.random() - 0.5) * 80;
+    const moveY3 = (Math.random() - 0.5) * 60;
+    
+    // Random rotation values
+    const rotate1 = Math.random() * 360;
+    const rotate2 = Math.random() * 360;
+    const rotate3 = Math.random() * 360;
+    
+    // Random scale values
+    const scale1 = Math.random() * 0.8 + 0.6; // 0.6 to 1.4
+    const scale2 = Math.random() * 0.8 + 0.6;
+    const scale3 = Math.random() * 0.8 + 0.6;
+    
+    // Apply styles
+    shape.style.top = top + '%';
+    shape.style.left = left + '%';
+    shape.style.width = size + 'px';
+    shape.style.height = size + 'px';
+    shape.style.borderColor = color;
+    shape.style.animationDuration = duration + 's';
+    shape.style.animationDelay = Math.random() * 5 + 's';
+    
+    // Set CSS custom properties for animation
+    shape.style.setProperty('--move-x-1', moveX1 + 'px');
+    shape.style.setProperty('--move-y-1', moveY1 + 'px');
+    shape.style.setProperty('--move-x-2', moveX2 + 'px');
+    shape.style.setProperty('--move-y-2', moveY2 + 'px');
+    shape.style.setProperty('--move-x-3', moveX3 + 'px');
+    shape.style.setProperty('--move-y-3', moveY3 + 'px');
+    shape.style.setProperty('--rotate-1', rotate1 + 'deg');
+    shape.style.setProperty('--rotate-2', rotate2 + 'deg');
+    shape.style.setProperty('--rotate-3', rotate3 + 'deg');
+    shape.style.setProperty('--scale-1', scale1);
+    shape.style.setProperty('--scale-2', scale2);
+    shape.style.setProperty('--scale-3', scale3);
+    
+    // Apply shape type
+    if (shapeType === 'circle') {
+      shape.style.borderRadius = '50%';
+    } else if (shapeType === 'triangle') {
+      shape.style.width = '0';
+      shape.style.height = '0';
+      shape.style.borderLeft = (size/2) + 'px solid transparent';
+      shape.style.borderRight = (size/2) + 'px solid transparent';
+      shape.style.borderBottom = size + 'px solid ' + color;
+      shape.style.border = 'none';
+    } else if (shapeType === 'diamond') {
+      shape.style.transform = 'rotate(45deg)';
+    }
+  });
+});
+</script>
