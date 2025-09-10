@@ -66,13 +66,24 @@
         </div>
         <div class="space-y-3" id="continue-column">
           <% @retrospective_session.retrospective_items.continue.each do |item| %>
-            <div class="bg-gray-700/50 border border-lime-400/30 rounded-lg p-3 hover:bg-gray-700/70 transition-colors duration-200">
+            <div class="bg-gray-700/50 border border-lime-400/30 rounded-lg p-3 hover:bg-gray-700/70 transition-colors duration-200 relative group" data-item-id="<%= item.id %>">
+              <!-- Edit button -->
+              <button 
+                onclick="openEditModal(<%= item.id %>)" 
+                class="absolute top-2 right-2 text-lime-400 hover:text-lime-300 opacity-0 group-hover:opacity-100 transition-opacity duration-200 p-1 hover:bg-lime-400/20 rounded"
+                title="Edit item"
+              >
+                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z"></path>
+                </svg>
+              </button>
+              
               <% if item.name.present? %>
-                <h4 class="text-lime-200 font-semibold mb-2" style="text-shadow: 0 0 5px #84cc16;">
+                <h4 class="text-lime-200 font-semibold mb-2 pr-8" style="text-shadow: 0 0 5px #84cc16;">
                   <%= item.name %>
                 </h4>
               <% else %>
-                <h4 class="text-lime-200 font-semibold mb-2 italic" style="text-shadow: 0 0 5px #84cc16;">
+                <h4 class="text-lime-200 font-semibold mb-2 italic pr-8" style="text-shadow: 0 0 5px #84cc16;">
                   (No title)
                 </h4>
               <% end %>
@@ -115,13 +126,24 @@
         </div>
         <div class="space-y-3" id="start-column">
           <% @retrospective_session.retrospective_items.start.each do |item| %>
-            <div class="bg-gray-700/50 border border-blue-400/30 rounded-lg p-3 hover:bg-gray-700/70 transition-colors duration-200">
+            <div class="bg-gray-700/50 border border-blue-400/30 rounded-lg p-3 hover:bg-gray-700/70 transition-colors duration-200 relative group" data-item-id="<%= item.id %>">
+              <!-- Edit button -->
+              <button 
+                onclick="openEditModal(<%= item.id %>)" 
+                class="absolute top-2 right-2 text-blue-400 hover:text-blue-300 opacity-0 group-hover:opacity-100 transition-opacity duration-200 p-1 hover:bg-blue-400/20 rounded"
+                title="Edit item"
+              >
+                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z"></path>
+                </svg>
+              </button>
+              
               <% if item.name.present? %>
-                <h4 class="text-blue-200 font-semibold mb-2" style="text-shadow: 0 0 5px #3b82f6;">
+                <h4 class="text-blue-200 font-semibold mb-2 pr-8" style="text-shadow: 0 0 5px #3b82f6;">
                   <%= item.name %>
                 </h4>
               <% else %>
-                <h4 class="text-blue-200 font-semibold mb-2 italic" style="text-shadow: 0 0 5px #3b82f6;">
+                <h4 class="text-blue-200 font-semibold mb-2 italic pr-8" style="text-shadow: 0 0 5px #3b82f6;">
                   (No title)
                 </h4>
               <% end %>
@@ -164,13 +186,24 @@
         </div>
         <div class="space-y-3" id="stop-column">
           <% @retrospective_session.retrospective_items.stop.each do |item| %>
-            <div class="bg-gray-700/50 border border-red-400/30 rounded-lg p-3 hover:bg-gray-700/70 transition-colors duration-200">
+            <div class="bg-gray-700/50 border border-red-400/30 rounded-lg p-3 hover:bg-gray-700/70 transition-colors duration-200 relative group" data-item-id="<%= item.id %>">
+              <!-- Edit button -->
+              <button 
+                onclick="openEditModal(<%= item.id %>)" 
+                class="absolute top-2 right-2 text-red-400 hover:text-red-300 opacity-0 group-hover:opacity-100 transition-opacity duration-200 p-1 hover:bg-red-400/20 rounded"
+                title="Edit item"
+              >
+                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z"></path>
+                </svg>
+              </button>
+              
               <% if item.name.present? %>
-                <h4 class="text-red-200 font-semibold mb-2" style="text-shadow: 0 0 5px #ef4444;">
+                <h4 class="text-red-200 font-semibold mb-2 pr-8" style="text-shadow: 0 0 5px #ef4444;">
                   <%= item.name %>
                 </h4>
               <% else %>
-                <h4 class="text-red-200 font-semibold mb-2 italic" style="text-shadow: 0 0 5px #ef4444;">
+                <h4 class="text-red-200 font-semibold mb-2 italic pr-8" style="text-shadow: 0 0 5px #ef4444;">
                   (No title)
                 </h4>
               <% end %>
@@ -213,13 +246,24 @@
         </div>
         <div class="space-y-3" id="misc-column">
           <% @retrospective_session.retrospective_items.misc.each do |item| %>
-            <div class="bg-gray-700/50 border border-purple-400/30 rounded-lg p-3 hover:bg-gray-700/70 transition-colors duration-200">
+            <div class="bg-gray-700/50 border border-purple-400/30 rounded-lg p-3 hover:bg-gray-700/70 transition-colors duration-200 relative group" data-item-id="<%= item.id %>">
+              <!-- Edit button -->
+              <button 
+                onclick="openEditModal(<%= item.id %>)" 
+                class="absolute top-2 right-2 text-purple-400 hover:text-purple-300 opacity-0 group-hover:opacity-100 transition-opacity duration-200 p-1 hover:bg-purple-400/20 rounded"
+                title="Edit item"
+              >
+                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z"></path>
+                </svg>
+              </button>
+              
               <% if item.name.present? %>
-                <h4 class="text-purple-200 font-semibold mb-2" style="text-shadow: 0 0 5px #a855f7;">
+                <h4 class="text-purple-200 font-semibold mb-2 pr-8" style="text-shadow: 0 0 5px #a855f7;">
                   <%= item.name %>
                 </h4>
               <% else %>
-                <h4 class="text-purple-200 font-semibold mb-2 italic" style="text-shadow: 0 0 5px #a855f7;">
+                <h4 class="text-purple-200 font-semibold mb-2 italic pr-8" style="text-shadow: 0 0 5px #a855f7;">
                   (No title)
                 </h4>
               <% end %>
@@ -450,6 +494,132 @@
           class="flex-1 px-4 py-2 bg-gradient-to-r from-lime-600 to-lime-500 hover:from-lime-500 hover:to-lime-400 text-black font-bold rounded-lg transform transition-all duration-300 hover:scale-105 hover:shadow-2xl border-2 border-lime-400 text-sm"
         >
           Save
+        </button>
+      </div>
+    </form>
+    </div>
+  </div>
+</div>
+
+<!-- Edit Modal -->
+<div id="edit-retrospective-modal" class="fixed inset-0 z-50 hidden">
+  <div id="edit-modal-content" class="bg-gray-900 border-2 border-lime-400 rounded-lg w-full max-w-sm relative shadow-2xl" style="position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); width: 80%; max-width: 320px;">
+    <!-- Draggable header area -->
+    <div id="edit-modal-drag-handle" class="bg-lime-400/30 rounded-t-lg cursor-move flex items-center justify-between px-4 py-3 border-b border-lime-400/50">
+      <!-- Drag indicator -->
+      <div class="flex items-center space-x-1">
+        <div class="w-1.5 h-1.5 bg-lime-400 rounded-full"></div>
+        <div class="w-1.5 h-1.5 bg-lime-400 rounded-full"></div>
+        <div class="w-1.5 h-1.5 bg-lime-400 rounded-full"></div>
+      </div>
+      
+      <!-- Modal title in header -->
+      <h2 class="text-lg font-bold text-lime-300" style="text-shadow: 0 0 10px #84cc16;">
+        Edit Item
+      </h2>
+      
+      <!-- Close button -->
+      <button 
+        onclick="closeEditModal()" 
+        class="text-lime-400 hover:text-lime-300 text-xl font-bold hover:bg-lime-400/20 rounded-full w-6 h-6 flex items-center justify-center"
+      >
+        ×
+      </button>
+    </div>
+    
+    <!-- Modal content -->
+    <div class="p-4">
+    
+    <!-- Form -->
+    <form id="edit-retrospective-form" onsubmit="submitEditForm(event)">
+      <input type="hidden" id="edit-item-id" />
+      
+      <!-- Category selection -->
+      <div class="mb-4">
+        <label class="block text-lime-300 text-xs font-bold mb-1" style="text-shadow: 0 0 10px #84cc16;">
+          Category *
+        </label>
+        <select 
+          id="edit-category" 
+          required
+          class="w-full px-3 py-2 bg-gray-800 border-2 border-lime-400 rounded-lg text-lime-300 focus:outline-none focus:border-lime-300 focus:ring-2 focus:ring-lime-400/20 text-sm"
+        >
+          <option value="">Select a category</option>
+          <option value="0">Continue</option>
+          <option value="1">Start</option>
+          <option value="2">Stop</option>
+          <option value="3">Misc</option>
+        </select>
+      </div>
+      
+      <!-- Name field -->
+      <div class="mb-4">
+        <label class="block text-lime-300 text-xs font-bold mb-1" style="text-shadow: 0 0 10px #84cc16;">
+          Name
+        </label>
+        <input 
+          type="text" 
+          id="edit-name" 
+          maxlength="255"
+          class="w-full px-3 py-2 bg-gray-800 border-2 border-lime-400 rounded-lg text-lime-300 focus:outline-none focus:border-lime-300 focus:ring-2 focus:ring-lime-400/20 text-sm"
+          placeholder="Enter item name (optional)"
+        />
+      </div>
+      
+      <!-- Person field -->
+      <div class="mb-4">
+        <label class="block text-lime-300 text-xs font-bold mb-1" style="text-shadow: 0 0 10px #84cc16;">
+          Person
+        </label>
+        <input 
+          type="text" 
+          id="edit-person" 
+          maxlength="255"
+          class="w-full px-3 py-2 bg-gray-800 border-2 border-lime-400 rounded-lg text-lime-300 focus:outline-none focus:border-lime-300 focus:ring-2 focus:ring-lime-400/20 text-sm"
+          placeholder="Enter person name (optional)"
+        />
+      </div>
+      
+      <!-- Comments field -->
+      <div class="mb-4">
+        <label class="block text-lime-300 text-xs font-bold mb-1" style="text-shadow: 0 0 10px #84cc16;">
+          Comments
+        </label>
+        <textarea 
+          id="edit-comments" 
+          rows="3" 
+          maxlength="1000"
+          class="w-full px-3 py-2 bg-gray-800 border-2 border-lime-400 rounded-lg text-lime-300 focus:outline-none focus:border-lime-300 focus:ring-2 focus:ring-lime-400/20 resize-none text-sm"
+          placeholder="Enter comments (optional)"
+        ></textarea>
+      </div>
+      
+      <!-- Due date field -->
+      <div class="mb-6">
+        <label class="block text-lime-300 text-xs font-bold mb-1" style="text-shadow: 0 0 10px #84cc16;">
+          Due Date
+        </label>
+        <input 
+          type="date" 
+          id="edit-due_date" 
+          class="w-full px-3 py-2 bg-gray-800 border-2 border-lime-400 rounded-lg text-lime-300 focus:outline-none focus:border-lime-300 focus:ring-2 focus:ring-lime-400/20 text-sm"
+        />
+      </div>
+      
+      <!-- Action buttons -->
+      <div class="flex space-x-3">
+        <button 
+          type="button" 
+          onclick="closeEditModal()" 
+          class="flex-1 px-4 py-2 bg-gray-700 hover:bg-gray-600 text-lime-300 font-bold rounded-lg transform transition-all duration-300 hover:scale-105 border-2 border-gray-500 text-sm"
+        >
+          Cancel
+        </button>
+        <button 
+          type="submit" 
+          class="flex-1 px-4 py-2 bg-gradient-to-r from-lime-600 to-lime-500 hover:from-lime-500 hover:to-lime-400 text-black font-bold rounded-lg transform transition-all duration-300 hover:scale-105 hover:shadow-2xl border-2 border-lime-400 text-sm"
+        >
+          Update
         </button>
       </div>
     </form>
@@ -714,6 +884,13 @@ function initActionCable() {
           
           // Show a notification that a new item was added by another user
           showNotification('New retrospective item added by another user!');
+        } else if (data.type === 'item_updated') {
+          console.log('✏️ Processing updated item:', data.item);
+          // Update the existing item in the appropriate column
+          updateItemInColumn(data.item);
+          
+          // Show a notification that an item was updated by another user
+          showNotification('Retrospective item updated by another user!');
         }
       }
     }
@@ -875,9 +1052,44 @@ function createItemElement(item, columnId) {
   const dueDate = item.due_date ? `<div class="text-xs ${dueDateColor}">Due: ${item.due_date}</div>` : '';
   const personDisplay = person ? `<div class="text-xs text-white mb-1">👤 ${person}</div>` : '';
   
-  div.className = `bg-gray-700/50 border ${borderColor} rounded-lg p-3 hover:bg-gray-700/70 transition-colors duration-200`;
+  div.className = `bg-gray-700/50 border ${borderColor} rounded-lg p-3 hover:bg-gray-700/70 transition-colors duration-200 relative group`;
+  div.setAttribute('data-item-id', item.id);
+  // Determine button color based on column
+  let buttonColor, buttonHoverColor, buttonBgColor;
+  switch(columnId) {
+    case 'continue-column':
+      buttonColor = 'text-lime-400';
+      buttonHoverColor = 'hover:text-lime-300';
+      buttonBgColor = 'hover:bg-lime-400/20';
+      break;
+    case 'start-column':
+      buttonColor = 'text-blue-400';
+      buttonHoverColor = 'hover:text-blue-300';
+      buttonBgColor = 'hover:bg-blue-400/20';
+      break;
+    case 'stop-column':
+      buttonColor = 'text-red-400';
+      buttonHoverColor = 'hover:text-red-300';
+      buttonBgColor = 'hover:bg-red-400/20';
+      break;
+    case 'misc-column':
+      buttonColor = 'text-purple-400';
+      buttonHoverColor = 'hover:text-purple-300';
+      buttonBgColor = 'hover:bg-purple-400/20';
+      break;
+  }
+  
   div.innerHTML = `
-    <h4 class="${textColor} font-semibold mb-2" style="${textShadow}">
+    <button 
+      onclick="openEditModal(${item.id})" 
+      class="absolute top-2 right-2 ${buttonColor} ${buttonHoverColor} opacity-0 group-hover:opacity-100 transition-opacity duration-200 p-1 ${buttonBgColor} rounded"
+      title="Edit item"
+    >
+      <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z"></path>
+      </svg>
+    </button>
+    <h4 class="${textColor} font-semibold mb-2 pr-8" style="${textShadow}">
       ${name}
     </h4>
     ${personDisplay}
@@ -978,9 +1190,314 @@ function showSuccessMessage() {
 document.addEventListener('keydown', function(e) {
   if (e.key === 'Escape') {
     const modal = document.getElementById('retrospective-modal');
+    const editModal = document.getElementById('edit-retrospective-modal');
     if (!modal.classList.contains('hidden')) {
       closeModal();
+    } else if (!editModal.classList.contains('hidden')) {
+      closeEditModal();
     }
   }
 });
+
+// Edit modal functions
+function openEditModal(itemId) {
+  console.log('Opening edit modal for item:', itemId);
+  
+  // Fetch the item data
+  fetch(`/retrospective_sessions/<%= @retrospective_session.id %>/items/${itemId}/edit`, {
+    method: 'GET',
+    headers: {
+      'Content-Type': 'application/json'
+    }
+  })
+  .then(response => response.json())
+  .then(data => {
+    if (data.status === 'success') {
+      // Populate the edit form with the item data
+      document.getElementById('edit-item-id').value = data.item.id;
+      document.getElementById('edit-category').value = data.item.category;
+      document.getElementById('edit-name').value = data.item.name || '';
+      document.getElementById('edit-person').value = data.item.person || '';
+      document.getElementById('edit-comments').value = data.item.comments || '';
+      document.getElementById('edit-due_date').value = data.item.due_date || '';
+      
+      // Show the edit modal
+      const editModal = document.getElementById('edit-retrospective-modal');
+      editModal.classList.remove('hidden');
+      
+      // Initialize drag functionality for edit modal
+      initEditDrag();
+    } else {
+      throw new Error(data.message || 'Failed to load item data');
+    }
+  })
+  .catch(error => {
+    console.error('Error loading item data:', error);
+    alert('Failed to load the retrospective item. Please try again.');
+  });
+}
+
+function closeEditModal() {
+  const editModal = document.getElementById('edit-retrospective-modal');
+  editModal.classList.add('hidden');
+  resetEditForm();
+}
+
+function resetEditForm() {
+  document.getElementById('edit-retrospective-form').reset();
+}
+
+// Edit modal drag functionality
+let isEditDragging = false;
+let editCurrentX = 0;
+let editCurrentY = 0;
+let editInitialX = 0;
+let editInitialY = 0;
+let editXOffset = 0;
+let editYOffset = 0;
+
+function initEditDrag() {
+  const editModalContent = document.getElementById('edit-modal-content');
+  const editDragHandle = document.getElementById('edit-modal-drag-handle');
+  
+  if (!editDragHandle) {
+    console.log('Edit drag handle not found');
+    return;
+  }
+  
+  console.log('Initializing edit drag functionality');
+  
+  editDragHandle.addEventListener('mousedown', editDragStart);
+  document.addEventListener('mousemove', editDrag);
+  document.addEventListener('mouseup', editDragEnd);
+  
+  // Prevent text selection while dragging
+  editDragHandle.addEventListener('selectstart', function(e) {
+    e.preventDefault();
+  });
+  
+  // Prevent default drag behavior
+  editDragHandle.addEventListener('dragstart', function(e) {
+    e.preventDefault();
+  });
+}
+
+function editDragStart(e) {
+  console.log('Edit drag start triggered');
+  
+  // Don't start dragging if clicking on the close button
+  if (e.target.tagName === 'BUTTON' || e.target.closest('button')) {
+    return;
+  }
+  
+  isEditDragging = true;
+  editInitialX = e.clientX - editXOffset;
+  editInitialY = e.clientY - editYOffset;
+  
+  console.log('Starting edit drag at:', editInitialX, editInitialY);
+}
+
+function editDrag(e) {
+  if (isEditDragging) {
+    e.preventDefault();
+    editCurrentX = e.clientX - editInitialX;
+    editCurrentY = e.clientY - editInitialY;
+    
+    editXOffset = editCurrentX;
+    editYOffset = editCurrentY;
+    
+    const editModalContent = document.getElementById('edit-modal-content');
+    editModalContent.style.transform = `translate(${editCurrentX}px, ${editCurrentY}px)`;
+  }
+}
+
+function editDragEnd(e) {
+  if (isEditDragging) {
+    console.log('Edit drag end');
+    isEditDragging = false;
+  }
+}
+
+function submitEditForm(event) {
+  event.preventDefault();
+  
+  const itemId = document.getElementById('edit-item-id').value;
+  const formData = {
+    retrospective_item: {
+      category: parseInt(document.getElementById('edit-category').value),
+      name: document.getElementById('edit-name').value,
+      person: document.getElementById('edit-person').value,
+      comments: document.getElementById('edit-comments').value,
+      due_date: document.getElementById('edit-due_date').value
+    }
+  };
+  
+  // Show loading state
+  const submitButton = event.target.querySelector('button[type="submit"]');
+  const originalText = submitButton.textContent;
+  submitButton.textContent = 'Updating...';
+  submitButton.disabled = true;
+  
+  // Submit the form
+  fetch(`/retrospective_sessions/<%= @retrospective_session.id %>/items/${itemId}`, {
+    method: 'PATCH',
+    headers: {
+      'Content-Type': 'application/json'
+    },
+    body: JSON.stringify(formData)
+  })
+  .then(response => response.json())
+  .then(data => {
+    if (data.status === 'success') {
+      closeEditModal();
+      updateItemInColumn(data.item);
+      showSuccessMessage('Retrospective item updated successfully!');
+    } else {
+      throw new Error(data.message || 'Failed to update item');
+    }
+  })
+  .catch(error => {
+    console.error('Error:', error);
+    alert('Failed to update the retrospective item. Please try again.');
+  })
+  .finally(() => {
+    // Reset button state
+    submitButton.textContent = originalText;
+    submitButton.disabled = false;
+  });
+}
+
+function updateItemInColumn(item) {
+  // Find the item element by ID and update its content
+  const itemElements = document.querySelectorAll('[data-item-id]');
+  let itemElement = null;
+  
+  // Look for existing item with this ID
+  itemElements.forEach(element => {
+    if (element.getAttribute('data-item-id') == item.id) {
+      itemElement = element;
+    }
+  });
+  
+  if (itemElement) {
+    // Update the item content
+    const categoryMap = {
+      'continue': 0,
+      'start': 1,
+      'stop': 2,
+      'misc': 3
+    };
+    
+    const categoryInt = categoryMap[item.category] || item.category;
+    
+    // Determine styling based on current column
+    let borderColor, textColor, textShadow, dueDateColor;
+    const currentColumn = itemElement.closest('[id$="-column"]');
+    const columnId = currentColumn ? currentColumn.id : '';
+    
+    switch(columnId) {
+      case 'continue-column':
+        borderColor = 'border-lime-400/30';
+        textColor = 'text-lime-200';
+        textShadow = 'text-shadow: 0 0 5px #84cc16;';
+        dueDateColor = 'text-lime-400';
+        break;
+      case 'start-column':
+        borderColor = 'border-blue-400/30';
+        textColor = 'text-blue-200';
+        textShadow = 'text-shadow: 0 0 5px #3b82f6;';
+        dueDateColor = 'text-blue-400';
+        break;
+      case 'stop-column':
+        borderColor = 'border-red-400/30';
+        textColor = 'text-red-200';
+        textShadow = 'text-shadow: 0 0 5px #ef4444;';
+        dueDateColor = 'text-red-400';
+        break;
+      case 'misc-column':
+        borderColor = 'border-purple-400/30';
+        textColor = 'text-purple-200';
+        textShadow = 'text-shadow: 0 0 5px #a855f7;';
+        dueDateColor = 'text-purple-400';
+        break;
+    }
+    
+    const name = item.name || '(No title)';
+    const person = item.person || '';
+    const comments = item.comments || 'No comments';
+    const dueDate = item.due_date ? `<div class="text-xs ${dueDateColor}">Due: ${item.due_date}</div>` : '';
+    const personDisplay = person ? `<div class="text-xs text-white mb-1">👤 ${person}</div>` : '';
+    
+    // Update the content
+    const titleElement = itemElement.querySelector('h4');
+    if (titleElement) {
+      titleElement.textContent = name;
+    }
+    
+    // Update person, comments, and due date
+    const personElement = itemElement.querySelector('.text-xs.text-white.mb-1');
+    if (personElement) {
+      personElement.innerHTML = personDisplay;
+    } else if (person) {
+      // Add person element if it doesn't exist
+      const titleElement = itemElement.querySelector('h4');
+      if (titleElement) {
+        titleElement.insertAdjacentHTML('afterend', personDisplay);
+      }
+    }
+    
+    const commentsElement = itemElement.querySelector('.text-gray-300.text-sm.mb-2, .text-gray-500.text-sm.mb-2.italic');
+    if (commentsElement) {
+      commentsElement.textContent = comments;
+      commentsElement.className = comments === 'No comments' ? 'text-gray-500 text-sm mb-2 italic' : 'text-gray-300 text-sm mb-2';
+    }
+    
+    const dueDateElement = itemElement.querySelector('.text-xs');
+    if (dueDateElement && dueDateElement.textContent.includes('Due:')) {
+      dueDateElement.innerHTML = dueDate;
+    } else if (item.due_date) {
+      // Add due date element if it doesn't exist
+      itemElement.insertAdjacentHTML('beforeend', dueDate);
+    }
+    
+    // Check if item needs to be moved to a different column
+    const targetColumnId = getColumnIdForCategory(categoryInt);
+    const targetColumn = document.getElementById(targetColumnId);
+    
+    if (targetColumn && currentColumn && currentColumn.id !== targetColumnId) {
+      // Move item to new column
+      const newItemElement = createItemElement(item, targetColumnId);
+      newItemElement.setAttribute('data-item-id', item.id);
+      targetColumn.appendChild(newItemElement);
+      itemElement.remove();
+      
+      // Update column counters
+      updateColumnCounters();
+    }
+  }
+}
+
+function getColumnIdForCategory(category) {
+  const categoryMap = {
+    0: 'continue-column',    // continue
+    1: 'start-column',       // start
+    2: 'stop-column',        // stop
+    3: 'misc-column'         // misc
+  };
+  
+  return categoryMap[category];
+}
+
+function showSuccessMessage(message) {
+  // Create a temporary success message
+  const successDiv = document.createElement('div');
+  successDiv.className = 'fixed top-4 right-4 bg-green-600 text-white px-6 py-3 rounded-lg shadow-lg z-50 transform transition-all duration-300';
+  successDiv.textContent = message;
+  document.body.appendChild(successDiv);
+  
+  // Remove the success message after 2 seconds
+  setTimeout(() => {
+    successDiv.remove();
+  }, 2000);
+}
 </script>
