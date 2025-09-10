@@ -881,6 +881,8 @@ function initActionCable() {
       
       received(data) {
         console.log('📨 Received live update:', data);
+        console.log('📨 Data type:', data.type);
+        console.log('📨 Full data object:', JSON.stringify(data, null, 2));
         
         if (data.type === 'item_created') {
           console.log('🆕 Processing new item:', data.item);
@@ -897,6 +899,8 @@ function initActionCable() {
           
           // Show a notification that an item was updated by another user
           showNotification('Retrospective item updated by another user!');
+        } else {
+          console.log('❓ Unknown data type received:', data.type);
         }
       }
     }
@@ -913,13 +917,13 @@ function initActionCable() {
     console.log('🔍 Consumer connection state:', consumer.connection ? consumer.connection.state : 'undefined');
     console.log('🔍 Consumer connection:', consumer.connection);
     
-    // Check both state and connected properties
-    const isConnected = subscription.state === 'connected' || subscription.connected === true;
+    // Check if subscription is actually connected by looking at the consumer connection
+    const isConnected = consumer.connection && consumer.connection.state === 'open';
     
     if (isConnected) {
       console.log('✅ Connection test passed - WebSocket is working');
     } else {
-      console.warn('⚠️ Connection test failed - WebSocket state:', subscription.state, 'connected:', subscription.connected);
+      console.warn('⚠️ Connection test failed - WebSocket state:', subscription.state, 'consumer state:', consumer.connection ? consumer.connection.state : 'undefined');
       console.log('🔍 Full subscription object:', subscription);
       console.log('🔍 Full consumer object:', consumer);
     }
@@ -945,8 +949,17 @@ window.testWebSocket = function() {
   if (window.retrospectiveSubscription) {
     console.log('📡 Subscription state:', window.retrospectiveSubscription.state);
     console.log('📡 Subscription connected:', window.retrospectiveSubscription.connected);
+    console.log('📡 Consumer connection state:', window.retrospectiveSubscription.consumer.connection.state);
   } else {
     console.log('❌ No subscription found');
+  }
+  
+  // Test if we can receive messages
+  console.log('🧪 Testing message reception...');
+  if (window.retrospectiveSubscription && window.retrospectiveSubscription.consumer.connection.state === 'open') {
+    console.log('✅ WebSocket connection is open, subscription should work');
+  } else {
+    console.log('❌ WebSocket connection is not open');
   }
   
   // Try to create a test item
