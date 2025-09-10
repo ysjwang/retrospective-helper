@@ -623,8 +623,163 @@ function dragEnd(e) {
 
 // Initialize drag functionality when the page loads
 document.addEventListener('DOMContentLoaded', function() {
+  console.log('🚀 DOM Content Loaded - Initializing components...');
   initDrag();
+  initActionCable();
 });
+
+// Also try to initialize ActionCable immediately (in case DOMContentLoaded doesn't fire)
+if (document.readyState === 'loading') {
+  console.log('📄 Document still loading, waiting for DOMContentLoaded...');
+} else {
+  console.log('📄 Document already loaded, initializing ActionCable immediately...');
+  initActionCable();
+}
+
+// ActionCable functionality
+function initActionCable() {
+  console.log('🚀 Initializing ActionCable...');
+  console.log('🔍 Debug info:', {
+    ActionCableAvailable: typeof ActionCable !== 'undefined',
+    DocumentReady: document.readyState,
+    Location: window.location.href
+  });
+  
+  // Check if ActionCable is available
+  if (typeof ActionCable === 'undefined') {
+    console.error('❌ ActionCable is not available. Make sure it\'s properly imported.');
+    console.log('🔍 Available global objects:', Object.keys(window).filter(key => key.includes('Action') || key.includes('Cable')));
+    return;
+  }
+  
+  console.log('✅ ActionCable is available, creating consumer...');
+  
+  // Create ActionCable consumer with explicit URL
+  let consumer;
+  try {
+    consumer = ActionCable.createConsumer('/cable');
+    console.log('🔌 ActionCable consumer created:', consumer);
+    
+    // Add error handling for WebSocket connection (using the correct API)
+    if (consumer.connection && consumer.connection.webSocket) {
+      consumer.connection.webSocket.addEventListener('error', (error) => {
+        console.error('❌ WebSocket connection error:', error);
+      });
+      
+      consumer.connection.webSocket.addEventListener('open', () => {
+        console.log('✅ WebSocket connection opened');
+      });
+      
+      consumer.connection.webSocket.addEventListener('close', () => {
+        console.log('❌ WebSocket connection closed');
+      });
+    }
+    
+  } catch (error) {
+    console.error('❌ Error creating ActionCable consumer:', error);
+    return;
+  }
+  
+  // Subscribe to the retrospective session channel
+  const subscription = consumer.subscriptions.create(
+    { 
+      channel: "RetrospectiveSessionChannel", 
+      session_id: <%= @retrospective_session.id %>
+    },
+    {
+      connected() {
+        console.log('✅ Connected to retrospective session channel for session ID:', <%= @retrospective_session.id %>);
+        console.log('🔗 WebSocket connection established');
+        console.log('📡 Subscription state:', subscription.state);
+      },
+      
+      disconnected() {
+        console.log('❌ Disconnected from retrospective session channel');
+        console.log('📡 Subscription state:', subscription.state);
+      },
+      
+      rejected() {
+        console.error('❌ Connection rejected by server');
+        console.log('📡 Subscription state:', subscription.state);
+      },
+      
+      received(data) {
+        console.log('📨 Received live update:', data);
+        
+        if (data.type === 'item_created') {
+          console.log('🆕 Processing new item:', data.item);
+          // Add the new item to the appropriate column
+          addItemToColumn(data.item);
+          updateColumnCounters();
+          
+          // Show a notification that a new item was added by another user
+          showNotification('New retrospective item added by another user!');
+        }
+      }
+    }
+  );
+  
+  // Store subscription globally for cleanup if needed
+  window.retrospectiveSubscription = subscription;
+  console.log('📡 ActionCable subscription created:', subscription);
+  
+  // Test the connection after a short delay
+  setTimeout(() => {
+    if (subscription.state === 'connected') {
+      console.log('✅ Connection test passed - WebSocket is working');
+    } else {
+      console.warn('⚠️ Connection test failed - WebSocket state:', subscription.state);
+      console.log('🔍 Consumer connection state:', consumer.connection.state);
+    }
+  }, 1000);
+}
+
+// Add a manual test function for debugging (always available)
+window.testWebSocket = function() {
+  console.log('🧪 Manual WebSocket test triggered');
+  
+  if (window.retrospectiveSubscription) {
+    console.log('📡 Subscription state:', window.retrospectiveSubscription.state);
+  } else {
+    console.log('❌ No subscription found');
+  }
+  
+  // Try to create a test item
+  fetch(`/retrospective_sessions/<%= @retrospective_session.id %>/items`, {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({
+      retrospective_item: {
+        category: 3,
+        name: 'Manual Test',
+        person: 'Debug',
+        comments: 'Testing WebSocket manually'
+      }
+    })
+  })
+  .then(response => response.json())
+  .then(data => {
+    console.log('📤 Test item created:', data);
+  })
+  .catch(error => {
+    console.error('❌ Test failed:', error);
+  });
+};
+
+console.log('🧪 Manual test available: window.testWebSocket()');
+
+function showNotification(message) {
+  // Create a temporary notification
+  const notificationDiv = document.createElement('div');
+  notificationDiv.className = 'fixed top-4 left-4 bg-blue-600 text-white px-6 py-3 rounded-lg shadow-lg z-50 transform transition-all duration-300';
+  notificationDiv.textContent = message;
+  document.body.appendChild(notificationDiv);
+  
+  // Remove the notification after 3 seconds
+  setTimeout(() => {
+    notificationDiv.remove();
+  }, 3000);
+}
 
 function resetForm() {
   document.getElementById('retrospective-form').reset();
@@ -632,13 +787,27 @@ function resetForm() {
 
 function addItemToColumn(item) {
   const categoryMap = {
-    'continue': 'continue-column',
-    'start': 'start-column', 
-    'stop': 'stop-column',
-    'misc': 'misc-column'
+    0: 'continue-column',    // continue
+    1: 'start-column',       // start
+    2: 'stop-column',        // stop
+    3: 'misc-column'         // misc
   };
   
-  const columnId = categoryMap[item.category];
+  // Handle both string and integer category values
+  const stringToIntMap = {
+    'continue': 0,
+    'start': 1,
+    'stop': 2,
+    'misc': 3
+  };
+  
+  // Convert string category to integer if needed
+  let categoryInt = item.category;
+  if (typeof item.category === 'string') {
+    categoryInt = stringToIntMap[item.category];
+  }
+  
+  const columnId = categoryMap[categoryInt];
   const column = document.getElementById(columnId);
   
   if (!column) {

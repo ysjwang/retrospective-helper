@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>WebSocket Test</title>
+</head>
+<body>
+    <h1>ActionCable WebSocket Test</h1>
+    <div id="status">Connecting...</div>
+    <div id="messages"></div>
+
+    <script src="https://cdn.jsdelivr.net/npm/@rails/actioncable@7.1.3/app/assets/javascripts/action_cable.js"></script>
+    <script>
+        const statusDiv = document.getElementById('status');
+        const messagesDiv = document.getElementById('messages');
+        
+        function addMessage(message) {
+            const div = document.createElement('div');
+            div.textContent = new Date().toLocaleTimeString() + ': ' + message;
+            messagesDiv.appendChild(div);
+        }
+        
+        addMessage('Starting ActionCable test...');
+        
+        if (typeof ActionCable === 'undefined') {
+            addMessage('ERROR: ActionCable not loaded');
+            statusDiv.textContent = 'ERROR: ActionCable not loaded';
+        } else {
+            addMessage('ActionCable loaded successfully');
+            
+            const consumer = ActionCable.createConsumer('/cable');
+            addMessage('Consumer created');
+            
+            const subscription = consumer.subscriptions.create(
+                { 
+                    channel: "RetrospectiveSessionChannel", 
+                    session_id: 7
+                },
+                {
+                    connected() {
+                        addMessage('✅ Connected to WebSocket!');
+                        statusDiv.textContent = 'Connected';
+                        statusDiv.style.color = 'green';
+                    },
+                    
+                    disconnected() {
+                        addMessage('❌ Disconnected from WebSocket');
+                        statusDiv.textContent = 'Disconnected';
+                        statusDiv.style.color = 'red';
+                    },
+                    
+                    rejected() {
+                        addMessage('❌ Connection rejected');
+                        statusDiv.textContent = 'Rejected';
+                        statusDiv.style.color = 'red';
+                    },
+                    
+                    received(data) {
+                        addMessage('📨 Received: ' + JSON.stringify(data));
+                    }
+                }
+            );
+            
+            addMessage('Subscription created');
+        }
+    </script>
+</body>
+</html>

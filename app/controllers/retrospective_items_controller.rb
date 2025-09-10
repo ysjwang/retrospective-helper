@@ -6,6 +6,19 @@ class RetrospectiveItemsController < ApplicationController
     @retrospective_item = @retrospective_session.retrospective_items.build(retrospective_item_params)
     
     if @retrospective_item.save
+      # Broadcast the new item to all subscribers of this retrospective session
+      RetrospectiveSessionChannel.broadcast_to(@retrospective_session, {
+        type: 'item_created',
+        item: {
+          id: @retrospective_item.id,
+          category: @retrospective_item.category, # This will be a string from the enum
+          name: @retrospective_item.name,
+          comments: @retrospective_item.comments,
+          due_date: @retrospective_item.due_date&.strftime("%b %d, %Y"),
+          person: @retrospective_item.person
+        }
+      })
+      
       render json: { 
         status: 'success', 
         message: 'Retrospective item created successfully',
