@@ -8,6 +8,7 @@ class RetrospectiveItemsController < ApplicationController
     if @retrospective_item.save
       # Broadcast the new item to all subscribers of this retrospective session
       begin
+        Rails.logger.info "ActionCable: Broadcasting item_created for session #{@retrospective_session.id}"
         RetrospectiveSessionChannel.broadcast_to(@retrospective_session, {
           type: 'item_created',
           item: {
@@ -19,8 +20,10 @@ class RetrospectiveItemsController < ApplicationController
             person: @retrospective_item.person
           }
         })
+        Rails.logger.info "ActionCable: Successfully broadcasted item_created"
       rescue => e
         Rails.logger.error "ActionCable broadcast failed: #{e.message}"
+        Rails.logger.error "ActionCable broadcast error backtrace: #{e.backtrace.join("\n")}"
         # Continue with the response even if broadcast fails
       end
       

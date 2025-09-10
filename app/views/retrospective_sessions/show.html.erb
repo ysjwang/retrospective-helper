@@ -865,6 +865,8 @@ function initActionCable() {
         console.log('✅ Connected to retrospective session channel for session ID:', <%= @retrospective_session.id %>);
         console.log('🔗 WebSocket connection established');
         console.log('📡 Subscription state:', subscription.state);
+        console.log('📡 Subscription connected:', subscription.connected);
+        console.log('📡 Consumer connection state:', consumer.connection.state);
       },
       
       disconnected() {
@@ -907,13 +909,17 @@ function initActionCable() {
   // Test the connection after a short delay
   setTimeout(() => {
     console.log('🔍 Connection test - WebSocket state:', subscription.state);
+    console.log('🔍 Subscription connected:', subscription.connected);
     console.log('🔍 Consumer connection state:', consumer.connection ? consumer.connection.state : 'undefined');
     console.log('🔍 Consumer connection:', consumer.connection);
     
-    if (subscription.state === 'connected') {
+    // Check both state and connected properties
+    const isConnected = subscription.state === 'connected' || subscription.connected === true;
+    
+    if (isConnected) {
       console.log('✅ Connection test passed - WebSocket is working');
     } else {
-      console.warn('⚠️ Connection test failed - WebSocket state:', subscription.state);
+      console.warn('⚠️ Connection test failed - WebSocket state:', subscription.state, 'connected:', subscription.connected);
       console.log('🔍 Full subscription object:', subscription);
       console.log('🔍 Full consumer object:', consumer);
     }
@@ -938,6 +944,7 @@ window.testWebSocket = function() {
   
   if (window.retrospectiveSubscription) {
     console.log('📡 Subscription state:', window.retrospectiveSubscription.state);
+    console.log('📡 Subscription connected:', window.retrospectiveSubscription.connected);
   } else {
     console.log('❌ No subscription found');
   }
