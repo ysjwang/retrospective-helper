@@ -25,11 +25,14 @@
 
     <!-- Subtitle with neon effect -->
     <p class="text-lg md:text-xl text-lime-300 mb-8 text-center max-w-2xl leading-relaxed" style="text-shadow: 0 0 10px #84cc16;">
-      Share this session ID with your team members
+      Share this session with your team members
     </p>
 
     <!-- UUID Input Field and Copy Button -->
-    <div class="w-full max-w-2xl mb-8">
+    <div class="w-full max-w-2xl mb-6">
+      <label class="block text-lime-300 text-sm font-bold mb-2 text-center" style="text-shadow: 0 0 10px #84cc16;">
+        Session ID (UUID)
+      </label>
       <div class="flex items-center space-x-4">
         <!-- UUID Input Field -->
         <input 
@@ -43,9 +46,36 @@
         
         <!-- Copy Button -->
         <button 
-          onclick="copyToClipboard()" 
+          onclick="copyToClipboard('uuid-input')" 
           class="px-6 py-4 bg-gradient-to-r from-lime-600 to-lime-500 hover:from-lime-500 hover:to-lime-400 text-black font-bold text-lg rounded-lg transform transition-all duration-300 hover:scale-105 hover:shadow-2xl border-2 border-lime-400"
-          id="copy-button"
+          id="copy-uuid-button"
+        >
+          COPY
+        </button>
+      </div>
+    </div>
+
+    <!-- Short URL Input Field and Copy Button -->
+    <div class="w-full max-w-2xl mb-8">
+      <label class="block text-lime-300 text-sm font-bold mb-2 text-center" style="text-shadow: 0 0 10px #84cc16;">
+        Short URL
+      </label>
+      <div class="flex items-center space-x-4">
+        <!-- Short URL Input Field -->
+        <input 
+          type="text" 
+          value="<%= request.base_url %>/retro/<%= @retrospective_session.uuid %>" 
+          readonly 
+          class="flex-1 px-6 py-4 bg-gray-800/50 border-2 border-lime-400 rounded-lg text-lime-300 font-mono text-lg text-center focus:outline-none focus:border-lime-300 focus:ring-2 focus:ring-lime-400/20"
+          style="text-shadow: 0 0 10px #84cc16;"
+          id="url-input"
+        />
+        
+        <!-- Copy Button -->
+        <button 
+          onclick="copyToClipboard('url-input')" 
+          class="px-6 py-4 bg-gradient-to-r from-lime-600 to-lime-500 hover:from-lime-500 hover:to-lime-400 text-black font-bold text-lg rounded-lg transform transition-all duration-300 hover:scale-105 hover:shadow-2xl border-2 border-lime-400"
+          id="copy-url-button"
         >
           COPY
         </button>
@@ -113,17 +143,18 @@
 </style>
 
 <script>
-function copyToClipboard() {
-  const uuidInput = document.getElementById('uuid-input');
-  const copyButton = document.getElementById('copy-button');
+function copyToClipboard(inputId) {
+  const input = document.getElementById(inputId);
+  const buttonId = inputId === 'uuid-input' ? 'copy-uuid-button' : 'copy-url-button';
+  const copyButton = document.getElementById(buttonId);
   const copyFeedback = document.getElementById('copy-feedback');
   
   // Select the text in the input field
-  uuidInput.select();
-  uuidInput.setSelectionRange(0, 99999); // For mobile devices
+  input.select();
+  input.setSelectionRange(0, 99999); // For mobile devices
   
   // Copy to clipboard
-  navigator.clipboard.writeText(uuidInput.value).then(function() {
+  navigator.clipboard.writeText(input.value).then(function() {
     // Show feedback
     copyFeedback.classList.remove('hidden');
     copyButton.textContent = 'COPIED!';

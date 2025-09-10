@@ -11,6 +11,9 @@ Rails.application.routes.draw do
 
   # Retrospective sessions
   resources :retrospective_sessions, only: [:show, :create]
+  
+  # Custom route for retro sessions using UUID
+  get "retro/:uuid", to: "retrospective_sessions#show_by_uuid", as: :retro_session
 
   # Defines the root path route ("/")
   root "pages#home"
