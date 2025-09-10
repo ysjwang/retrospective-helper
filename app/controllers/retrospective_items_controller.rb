@@ -7,17 +7,22 @@ class RetrospectiveItemsController < ApplicationController
     
     if @retrospective_item.save
       # Broadcast the new item to all subscribers of this retrospective session
-      RetrospectiveSessionChannel.broadcast_to(@retrospective_session, {
-        type: 'item_created',
-        item: {
-          id: @retrospective_item.id,
-          category: @retrospective_item.category, # This will be a string from the enum
-          name: @retrospective_item.name,
-          comments: @retrospective_item.comments,
-          due_date: @retrospective_item.due_date&.strftime("%b %d, %Y"),
-          person: @retrospective_item.person
-        }
-      })
+      begin
+        RetrospectiveSessionChannel.broadcast_to(@retrospective_session, {
+          type: 'item_created',
+          item: {
+            id: @retrospective_item.id,
+            category: @retrospective_item.category, # This will be a string from the enum
+            name: @retrospective_item.name,
+            comments: @retrospective_item.comments,
+            due_date: @retrospective_item.due_date&.strftime("%b %d, %Y"),
+            person: @retrospective_item.person
+          }
+        })
+      rescue => e
+        Rails.logger.error "ActionCable broadcast failed: #{e.message}"
+        # Continue with the response even if broadcast fails
+      end
       
       render json: { 
         status: 'success', 
@@ -59,17 +64,22 @@ class RetrospectiveItemsController < ApplicationController
     
     if @retrospective_item.update(retrospective_item_params)
       # Broadcast the updated item to all subscribers of this retrospective session
-      RetrospectiveSessionChannel.broadcast_to(@retrospective_session, {
-        type: 'item_updated',
-        item: {
-          id: @retrospective_item.id,
-          category: @retrospective_item.category,
-          name: @retrospective_item.name,
-          comments: @retrospective_item.comments,
-          due_date: @retrospective_item.due_date&.strftime("%b %d, %Y"),
-          person: @retrospective_item.person
-        }
-      })
+      begin
+        RetrospectiveSessionChannel.broadcast_to(@retrospective_session, {
+          type: 'item_updated',
+          item: {
+            id: @retrospective_item.id,
+            category: @retrospective_item.category,
+            name: @retrospective_item.name,
+            comments: @retrospective_item.comments,
+            due_date: @retrospective_item.due_date&.strftime("%b %d, %Y"),
+            person: @retrospective_item.person
+          }
+        })
+      rescue => e
+        Rails.logger.error "ActionCable broadcast failed: #{e.message}"
+        # Continue with the response even if broadcast fails
+      end
       
       render json: { 
         status: 'success', 

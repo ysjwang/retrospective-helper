@@ -907,17 +907,33 @@ function initActionCable() {
   // Test the connection after a short delay
   setTimeout(() => {
     console.log('🔍 Connection test - WebSocket state:', subscription.state);
+    console.log('🔍 Consumer connection state:', consumer.connection ? consumer.connection.state : 'undefined');
+    console.log('🔍 Consumer connection:', consumer.connection);
+    
     if (subscription.state === 'connected') {
       console.log('✅ Connection test passed - WebSocket is working');
     } else {
       console.warn('⚠️ Connection test failed - WebSocket state:', subscription.state);
-      console.log('🔍 Consumer connection state:', consumer.connection.state);
+      console.log('🔍 Full subscription object:', subscription);
+      console.log('🔍 Full consumer object:', consumer);
     }
   }, 1000);
 }
 
 // Add a manual test function for debugging (always available)
 window.testWebSocket = function() {
+  console.log('🧪 Testing WebSocket endpoint...');
+  fetch('/cable', { method: 'GET' })
+    .then(response => {
+      console.log('📡 WebSocket endpoint response:', response.status, response.statusText);
+      return response.text();
+    })
+    .then(text => {
+      console.log('📡 WebSocket endpoint content:', text.substring(0, 200));
+    })
+    .catch(error => {
+      console.error('❌ WebSocket endpoint test failed:', error);
+    });
   console.log('🧪 Manual WebSocket test triggered');
   
   if (window.retrospectiveSubscription) {
@@ -1153,7 +1169,12 @@ function submitForm(event) {
     },
     body: JSON.stringify(formData)
   })
-  .then(response => response.json())
+  .then(response => {
+    if (!response.ok) {
+      throw new Error(`HTTP ${response.status}: ${response.statusText}`);
+    }
+    return response.json();
+  })
   .then(data => {
     if (data.status === 'success') {
       closeModal();

@@ -51,6 +51,10 @@ Rails.application.configure do
 
   # Replace the default in-process and non-durable queuing backend for Active Job.
   config.active_job.queue_adapter = :solid_queue
+  
+  # Configure Action Cable to use the primary database
+  config.action_cable.url = nil # Use default URL
+  config.action_cable.allowed_request_origins = [%r{http://.*}, %r{https://.*}]
 
   # Ignore bad email addresses and do not raise email delivery errors.
   # Set this to true and configure the email server for immediate delivery to raise delivery errors.
