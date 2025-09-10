@@ -824,10 +824,14 @@ function initActionCable() {
   
   console.log('✅ ActionCable is available, creating consumer...');
   
-  // Create ActionCable consumer with explicit URL
+  // Create ActionCable consumer with proper URL for production
   let consumer;
   try {
-    consumer = ActionCable.createConsumer('/cable');
+    // Use wss:// for production HTTPS, ws:// for development
+    const protocol = window.location.protocol === 'https:' ? 'wss:' : 'ws:';
+    const cableUrl = `${protocol}//${window.location.host}/cable`;
+    console.log('🔗 Connecting to ActionCable at:', cableUrl);
+    consumer = ActionCable.createConsumer(cableUrl);
     console.log('🔌 ActionCable consumer created:', consumer);
     
     // Add error handling for WebSocket connection (using the correct API)
@@ -902,6 +906,7 @@ function initActionCable() {
   
   // Test the connection after a short delay
   setTimeout(() => {
+    console.log('🔍 Connection test - WebSocket state:', subscription.state);
     if (subscription.state === 'connected') {
       console.log('✅ Connection test passed - WebSocket is working');
     } else {
