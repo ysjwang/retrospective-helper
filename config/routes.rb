@@ -14,7 +14,11 @@ Rails.application.routes.draw do
 
   # Retrospective sessions
   resources :retrospective_sessions, only: [:show, :create] do
-    resources :retrospective_items, only: [:create, :edit, :update], path: 'items'
+    resources :retrospective_items, only: [:create, :edit, :update], path: 'items' do
+      member do
+        patch :update_category
+      end
+    end
   end
   
   # Custom route for retro sessions using UUID

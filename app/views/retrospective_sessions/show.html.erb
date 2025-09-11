@@ -57,9 +57,9 @@
             <%= @retrospective_session.retrospective_items.continue.count %>
           </span>
         </div>
-        <div class="space-y-3" id="continue-column">
+        <div class="space-y-3 min-h-[300px]" id="continue-column" data-category="continue">
           <% @retrospective_session.retrospective_items.continue.each do |item| %>
-            <div class="bg-gray-700/50 border border-purple-400/30 rounded-lg p-3 hover:bg-gray-700/70 transition-colors duration-200 relative group" data-item-id="<%= item.id %>">
+            <div class="bg-gray-700/50 border border-purple-400/30 rounded-lg p-3 hover:bg-gray-700/70 transition-colors duration-200 relative group draggable-item" data-item-id="<%= item.id %>">
               <!-- Edit button -->
               <button 
                 onclick="openEditModal(<%= item.id %>)" 
@@ -117,9 +117,9 @@
             <%= @retrospective_session.retrospective_items.start.count %>
           </span>
         </div>
-        <div class="space-y-3" id="start-column">
+        <div class="space-y-3 min-h-[300px]" id="start-column" data-category="start">
           <% @retrospective_session.retrospective_items.start.each do |item| %>
-            <div class="bg-gray-700/50 border border-blue-400/30 rounded-lg p-3 hover:bg-gray-700/70 transition-colors duration-200 relative group" data-item-id="<%= item.id %>">
+            <div class="bg-gray-700/50 border border-blue-400/30 rounded-lg p-3 hover:bg-gray-700/70 transition-colors duration-200 relative group draggable-item" data-item-id="<%= item.id %>">
               <!-- Edit button -->
               <button 
                 onclick="openEditModal(<%= item.id %>)" 
@@ -177,9 +177,9 @@
             <%= @retrospective_session.retrospective_items.stop.count %>
           </span>
         </div>
-        <div class="space-y-3" id="stop-column">
+        <div class="space-y-3 min-h-[300px]" id="stop-column" data-category="stop">
           <% @retrospective_session.retrospective_items.stop.each do |item| %>
-            <div class="bg-gray-700/50 border border-red-400/30 rounded-lg p-3 hover:bg-gray-700/70 transition-colors duration-200 relative group" data-item-id="<%= item.id %>">
+            <div class="bg-gray-700/50 border border-red-400/30 rounded-lg p-3 hover:bg-gray-700/70 transition-colors duration-200 relative group draggable-item" data-item-id="<%= item.id %>">
               <!-- Edit button -->
               <button 
                 onclick="openEditModal(<%= item.id %>)" 
@@ -237,9 +237,9 @@
             <%= @retrospective_session.retrospective_items.misc.count %>
           </span>
         </div>
-        <div class="space-y-3" id="misc-column">
+        <div class="space-y-3 min-h-[300px]" id="misc-column" data-category="misc">
           <% @retrospective_session.retrospective_items.misc.each do |item| %>
-            <div class="bg-gray-700/50 border border-purple-400/30 rounded-lg p-3 hover:bg-gray-700/70 transition-colors duration-200 relative group" data-item-id="<%= item.id %>">
+            <div class="bg-gray-700/50 border border-purple-400/30 rounded-lg p-3 hover:bg-gray-700/70 transition-colors duration-200 relative group draggable-item" data-item-id="<%= item.id %>">
               <!-- Edit button -->
               <button 
                 onclick="openEditModal(<%= item.id %>)" 
@@ -621,9 +621,53 @@
 </div>
 
 <style>
+/* Drag and drop styling */
+.draggable-item {
+  cursor: grab;
+}
+
+.draggable-item:active {
+  cursor: grabbing;
+}
+
+.sortable-ghost {
+  opacity: 0.4;
+}
+
+.sortable-drag {
+  transform: rotate(5deg);
+}
+
+.sortable-chosen {
+  transform: scale(1.05);
+}
+
+/* Drop zone styling */
+.drop-zone {
+  min-height: 100px;
+  border: 2px dashed rgba(168, 85, 247, 0.3);
+  border-radius: 8px;
+}
+
+.drop-zone.drag-over {
+  border-color: rgba(168, 85, 247, 0.8);
+  background-color: rgba(168, 85, 247, 0.1);
+}
 </style>
 
-<script>
+<script type="module">
+import Sortable from 'sortablejs';
+
+// Make functions globally accessible
+window.copyToClipboard = copyToClipboard;
+window.openModal = openModal;
+window.closeModal = closeModal;
+window.openEditModal = openEditModal;
+window.closeEditModal = closeEditModal;
+window.submitForm = submitForm;
+window.submitEditForm = submitEditForm;
+window.testWebSocket = testWebSocket;
+
 function copyToClipboard(inputId) {
   const input = document.getElementById(inputId);
   const buttonId = inputId === 'uuid-input' ? 'copy-uuid-button' : 'copy-url-button';
@@ -752,11 +796,205 @@ function dragEnd(e) {
   }
 }
 
+// Initialize Sortable drag-and-drop
+function initSortable() {
+  console.log('🎯 Initializing Sortable drag-and-drop...');
+  
+  const columns = ['continue-column', 'start-column', 'stop-column', 'misc-column'];
+  
+  columns.forEach(columnId => {
+    const column = document.getElementById(columnId);
+    if (!column) {
+      console.warn(`Column ${columnId} not found`);
+      return;
+    }
+    
+    // Create Sortable instance for this column
+    Sortable.create(column, {
+      group: 'retrospective-items', // Allow dragging between columns
+      animation: 150,
+      ghostClass: 'sortable-ghost',
+      chosenClass: 'sortable-chosen',
+      dragClass: 'sortable-drag',
+      handle: '.draggable-item', // Only allow dragging by the item itself
+      filter: 'button, .text-gray-500', // Prevent dragging buttons and "no items" messages
+      preventOnFilter: false,
+      
+      // Called when an item is dropped into a new column
+      onAdd: function(evt) {
+        handleItemMove(evt);
+      },
+      
+      // Called when an item is moved within the same column
+      onUpdate: function(evt) {
+        // We don't need to handle reordering within the same column
+        console.log('Item reordered within same column');
+      },
+      
+      // Called when drag starts
+      onStart: function(evt) {
+        console.log('Drag started');
+        evt.item.style.opacity = '0.5';
+      },
+      
+      // Called when drag ends
+      onEnd: function(evt) {
+        console.log('Drag ended');
+        evt.item.style.opacity = '1';
+      }
+    });
+  });
+  
+  console.log('✅ Sortable initialization complete');
+}
+
+// Handle item movement between columns
+function handleItemMove(evt) {
+  const item = evt.item;
+  const itemId = item.getAttribute('data-item-id');
+  const newColumn = evt.to;
+  const newCategory = newColumn.getAttribute('data-category');
+  
+  console.log(`Moving item ${itemId} to category ${newCategory}`);
+  
+  if (!itemId || !newCategory) {
+    console.error('Missing item ID or category');
+    return;
+  }
+  
+  // Convert category name to enum value
+  const categoryMap = {
+    'continue': 0,
+    'start': 1,
+    'stop': 2,
+    'misc': 3
+  };
+  
+  const categoryValue = categoryMap[newCategory];
+  
+  if (categoryValue === undefined) {
+    console.error('Invalid category:', newCategory);
+    return;
+  }
+  
+  // Update the item's styling to match the new column
+  updateItemStyling(item, newCategory);
+  
+  // Remove "No items yet" message if it exists
+  const noItemsMessage = newColumn.querySelector('.text-gray-500.text-center.py-8.italic');
+  if (noItemsMessage) {
+    noItemsMessage.remove();
+  }
+  
+  // Update column counters
+  updateColumnCounters();
+  
+  // Send update to server
+  fetch(`/retrospective_sessions/<%= @retrospective_session.id %>/items/${itemId}/update_category`, {
+    method: 'PATCH',
+    headers: {
+      'Content-Type': 'application/json',
+      'X-Requested-With': 'XMLHttpRequest'
+    },
+    body: JSON.stringify({
+      category: categoryValue
+    })
+  })
+  .then(response => response.json())
+  .then(data => {
+    if (data.status === 'success') {
+      console.log('✅ Item category updated successfully');
+      showNotification('Item moved successfully!');
+    } else {
+      throw new Error(data.message || 'Failed to update item category');
+    }
+  })
+  .catch(error => {
+    console.error('❌ Failed to update item category:', error);
+    showNotification('Failed to move item. Please refresh the page.', 'error');
+    // TODO: Consider reverting the UI change on error
+  });
+}
+
+// Update item styling to match new column
+function updateItemStyling(item, category) {
+  // Remove old border colors
+  item.classList.remove('border-purple-400/30', 'border-blue-400/30', 'border-red-400/30');
+  
+  // Update title color and text shadow
+  const titleElement = item.querySelector('h4');
+  if (titleElement) {
+    titleElement.classList.remove('text-purple-200', 'text-blue-200', 'text-red-200');
+    titleElement.style.textShadow = '';
+  }
+  
+  // Update edit button colors
+  const editButton = item.querySelector('button');
+  if (editButton) {
+    editButton.classList.remove(
+      'text-purple-400', 'hover:text-purple-300', 'hover:bg-purple-400/20',
+      'text-blue-400', 'hover:text-blue-300', 'hover:bg-blue-400/20',
+      'text-red-400', 'hover:text-red-300', 'hover:bg-red-400/20'
+    );
+  }
+  
+  // Update due date colors
+  const dueDateElement = item.querySelector('.text-xs:last-child');
+  if (dueDateElement && dueDateElement.textContent.includes('Due:')) {
+    dueDateElement.classList.remove('text-purple-400', 'text-blue-400', 'text-red-400');
+  }
+  
+  // Apply new styling based on category
+  switch(category) {
+    case 'continue':
+    case 'misc':
+      item.classList.add('border-purple-400/30');
+      if (titleElement) {
+        titleElement.classList.add('text-purple-200');
+        titleElement.style.textShadow = '0 0 5px #a855f7';
+      }
+      if (editButton) {
+        editButton.classList.add('text-purple-400', 'hover:text-purple-300', 'hover:bg-purple-400/20');
+      }
+      if (dueDateElement && dueDateElement.textContent.includes('Due:')) {
+        dueDateElement.classList.add('text-purple-400');
+      }
+      break;
+    case 'start':
+      item.classList.add('border-blue-400/30');
+      if (titleElement) {
+        titleElement.classList.add('text-blue-200');
+        titleElement.style.textShadow = '0 0 5px #3b82f6';
+      }
+      if (editButton) {
+        editButton.classList.add('text-blue-400', 'hover:text-blue-300', 'hover:bg-blue-400/20');
+      }
+      if (dueDateElement && dueDateElement.textContent.includes('Due:')) {
+        dueDateElement.classList.add('text-blue-400');
+      }
+      break;
+    case 'stop':
+      item.classList.add('border-red-400/30');
+      if (titleElement) {
+        titleElement.classList.add('text-red-200');
+        titleElement.style.textShadow = '0 0 5px #ef4444';
+      }
+      if (editButton) {
+        editButton.classList.add('text-red-400', 'hover:text-red-300', 'hover:bg-red-400/20');
+      }
+      if (dueDateElement && dueDateElement.textContent.includes('Due:')) {
+        dueDateElement.classList.add('text-red-400');
+      }
+      break;
+  }
+}
+
 // Initialize drag functionality when the page loads
 document.addEventListener('DOMContentLoaded', function() {
   console.log('🚀 DOM Content Loaded - Initializing components...');
   initDrag();
   initActionCable();
+  initSortable();
 });
 
 // Also try to initialize ActionCable immediately (in case DOMContentLoaded doesn't fire)
@@ -860,6 +1098,14 @@ function initActionCable() {
           
           // Show a notification that an item was updated by another user
           showNotification('Retrospective item updated by another user!');
+        } else if (data.type === 'item_moved') {
+          console.log('🔄 Processing moved item:', data.item);
+          // Update the existing item and move it to the appropriate column
+          updateItemInColumn(data.item);
+          updateColumnCounters();
+          
+          // Show a notification that an item was moved by another user
+          showNotification('Retrospective item moved by another user!');
         } else {
           console.log('❓ Unknown data type received:', data.type);
         }
@@ -947,17 +1193,27 @@ window.testWebSocket = function() {
 
 console.log('🧪 Manual test available: window.testWebSocket()');
 
-function showNotification(message) {
+function showNotification(message, type = 'info') {
   // Create a temporary notification
   const notificationDiv = document.createElement('div');
-  notificationDiv.className = 'fixed top-4 left-4 bg-blue-600 text-white px-6 py-3 rounded-lg shadow-lg z-50 transform transition-all duration-300';
+  
+  // Set different colors based on type
+  let bgColor = 'bg-blue-600';
+  if (type === 'error') {
+    bgColor = 'bg-red-600';
+  } else if (type === 'success') {
+    bgColor = 'bg-green-600';
+  }
+  
+  notificationDiv.className = `fixed top-4 left-4 ${bgColor} text-white px-6 py-3 rounded-lg shadow-lg z-50 transform transition-all duration-300`;
   notificationDiv.textContent = message;
   document.body.appendChild(notificationDiv);
   
-  // Remove the notification after 3 seconds
+  // Remove the notification after 3 seconds (longer for error messages)
+  const duration = type === 'error' ? 5000 : 3000;
   setTimeout(() => {
     notificationDiv.remove();
-  }, 3000);
+  }, duration);
 }
 
 function resetForm() {
@@ -1054,7 +1310,7 @@ function createItemElement(item, columnId) {
   const dueDate = item.due_date ? `<div class="text-xs ${dueDateColor}">Due: ${item.due_date}</div>` : '';
   const personDisplay = person ? `<div class="text-xs text-white mb-1">👤 ${person}</div>` : '';
   
-  div.className = `bg-gray-700/50 border ${borderColor} rounded-lg p-3 hover:bg-gray-700/70 transition-colors duration-200 relative group`;
+  div.className = `bg-gray-700/50 border ${borderColor} rounded-lg p-3 hover:bg-gray-700/70 transition-colors duration-200 relative group draggable-item`;
   div.setAttribute('data-item-id', item.id);
   // Determine button color based on column
   let buttonColor, buttonHoverColor, buttonBgColor;

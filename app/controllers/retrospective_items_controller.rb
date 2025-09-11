@@ -104,6 +104,34 @@ class RetrospectiveItemsController < ApplicationController
     end
   end
 
+  def update_category
+    @retrospective_session = RetrospectiveSession.find(params[:retrospective_session_id])
+    @retrospective_item = @retrospective_session.retrospective_items.find(params[:id])
+    
+    if @retrospective_item.update(category: params[:category])
+      # Broadcast the category change to all subscribers
+      begin
+        RetrospectiveSessionChannel.broadcast_to(@retrospective_session, {
+          type: 'item_moved',
+          item: {
+            id: @retrospective_item.id,
+            category: @retrospective_item.category,
+            name: @retrospective_item.name,
+            comments: @retrospective_item.comments,
+            due_date: @retrospective_item.due_date&.strftime("%b %d, %Y"),
+            person: @retrospective_item.person
+          }
+        })
+      rescue => e
+        Rails.logger.error "ActionCable broadcast failed: #{e.message}"
+      end
+      
+      render json: { status: 'success', message: 'Item category updated successfully' }
+    else
+      render json: { status: 'error', message: @retrospective_item.errors.full_messages.join(', ') }, status: :unprocessable_entity
+    end
+  end
+
   private
 
   def retrospective_item_params
