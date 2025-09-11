@@ -22,7 +22,19 @@
     <%= javascript_importmap_tags %>
   </head>
 
-  <body class="m-0 p-0">
+  <body class="m-0 p-0" data-controller="theme">
+    <!-- Theme Switcher -->
+    <div class="theme-switcher">
+      <button 
+        data-theme-target="toggle" 
+        data-action="click->theme#toggle" 
+        class="theme-toggle-button"
+        title="Switch theme"
+      >
+        Professional Mode
+      </button>
+    </div>
+
     <main class="w-full h-full">
       <%= yield %>
     </main>
