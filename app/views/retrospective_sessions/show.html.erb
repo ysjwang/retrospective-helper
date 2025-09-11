@@ -964,6 +964,20 @@ function resetForm() {
   document.getElementById('retrospective-form').reset();
 }
 
+function resetFormButKeepCategory() {
+  // Store the current category value
+  const categoryValue = document.getElementById('category').value;
+  
+  // Reset all fields
+  document.getElementById('name').value = '';
+  document.getElementById('person').value = '';
+  document.getElementById('comments').value = '';
+  document.getElementById('due_date').value = '';
+  
+  // Restore the category value
+  document.getElementById('category').value = categoryValue;
+}
+
 function addItemToColumn(item) {
   const categoryMap = {
     0: 'continue-column',    // continue
@@ -1158,7 +1172,8 @@ function submitForm(event) {
   })
   .then(data => {
     if (data.status === 'success') {
-      closeModal();
+      // Don't close modal, just reset fields but keep category
+      resetFormButKeepCategory();
       addItemToColumn(data.item);
       updateColumnCounters();
       showSuccessMessage();
