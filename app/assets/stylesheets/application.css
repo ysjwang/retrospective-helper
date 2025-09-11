@@ -8,3 +8,159 @@
  *
  * Consider organizing styles into separate files for maintainability.
  */
+
+/* Theme Switcher Component */
+.theme-switcher {
+  position: fixed;
+  top: 20px;
+  left: 20px;
+  z-index: 1000;
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+}
+
+.theme-toggle-button {
+  background: rgba(255, 255, 255, 0.9);
+  border: 2px solid #e5e7eb;
+  border-radius: 8px;
+  padding: 8px 16px;
+  font-size: 14px;
+  font-weight: 600;
+  color: #374151;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.theme-toggle-button:hover {
+  background: white;
+  border-color: #d1d5db;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
+  transform: translateY(-1px);
+}
+
+/* Professional Theme Overrides */
+body.theme-professional {
+  background: #f8fafc !important;
+}
+
+/* Professional theme backgrounds */
+.theme-professional .bg-gradient-to-br.from-gray-900.via-black.to-gray-800 {
+  background: linear-gradient(135deg, #f8fafc 0%, #e2e8f0 100%) !important;
+}
+
+.theme-professional .bg-gray-800\/50 {
+  background: rgba(255, 255, 255, 0.9) !important;
+  border-color: #e2e8f0 !important;
+}
+
+.theme-professional .bg-gray-700\/50 {
+  background: rgba(248, 250, 252, 0.9) !important;
+  border-color: #e2e8f0 !important;
+}
+
+.theme-professional .bg-gray-900 {
+  background: white !important;
+  border-color: #e2e8f0 !important;
+}
+
+/* Professional theme text colors */
+.theme-professional .text-purple-300,
+.theme-professional .text-purple-200,
+.theme-professional .text-blue-300,
+.theme-professional .text-blue-200,
+.theme-professional .text-red-300,
+.theme-professional .text-red-200 {
+  color: #374151 !important;
+  text-shadow: none !important;
+}
+
+.theme-professional .text-transparent.bg-clip-text.bg-gradient-to-r {
+  background: none !important;
+  color: #1f2937 !important;
+  text-shadow: none !important;
+}
+
+.theme-professional .text-gray-300 {
+  color: #6b7280 !important;
+}
+
+.theme-professional .text-gray-500 {
+  color: #9ca3af !important;
+}
+
+.theme-professional .text-white {
+  color: #1f2937 !important;
+}
+
+/* Professional theme buttons */
+.theme-professional .bg-gradient-to-r.from-purple-600.to-purple-500 {
+  background: linear-gradient(90deg, #4f46e5 0%, #6366f1 100%) !important;
+  border-color: #4338ca !important;
+}
+
+.theme-professional .bg-gradient-to-r.from-purple-500.to-purple-400 {
+  background: linear-gradient(90deg, #6366f1 0%, #818cf8 100%) !important;
+}
+
+.theme-professional .bg-gray-700 {
+  background: #f3f4f6 !important;
+  border-color: #d1d5db !important;
+}
+
+.theme-professional .bg-gray-700:hover,
+.theme-professional .bg-gray-600 {
+  background: #e5e7eb !important;
+}
+
+/* Professional theme borders */
+.theme-professional .border-purple-400,
+.theme-professional .border-blue-400,
+.theme-professional .border-red-400 {
+  border-color: #e5e7eb !important;
+}
+
+.theme-professional .border-purple-400\/30,
+.theme-professional .border-blue-400\/30,
+.theme-professional .border-red-400\/30 {
+  border-color: #e5e7eb !important;
+}
+
+/* Professional theme animations - disable neon effects */
+.theme-professional [style*="text-shadow"] {
+  text-shadow: none !important;
+}
+
+.theme-professional [style*="box-shadow"] {
+  box-shadow: 0 1px 3px 0 rgb(0 0 0 / 0.1), 0 1px 2px -1px rgb(0 0 0 / 0.1) !important;
+}
+
+/* Professional theme - remove animated background elements */
+.theme-professional .animate-pulse,
+.theme-professional .animate-ping {
+  animation: none !important;
+  opacity: 0 !important;
+}
+
+.theme-professional .random-shape {
+  display: none !important;
+}
+
+/* Professional theme - column headers */
+.theme-professional .bg-purple-600,
+.theme-professional .bg-blue-600,
+.theme-professional .bg-red-600 {
+  background: #6b7280 !important;
+}
+
+/* Professional theme - form inputs */
+.theme-professional .bg-gray-800.border-2.border-purple-400 {
+  background: white !important;
+  border-color: #d1d5db !important;
+  color: #374151 !important;
+}
+
+/* Professional theme - remove gradients on bottom line */
+.theme-professional .bg-gradient-to-r.from-transparent.via-purple-400.to-transparent {
+  background: #e5e7eb !important;
+  height: 1px !important;
+}
