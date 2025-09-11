@@ -9,13 +9,6 @@
     </div>
   </div>
 
-  <!-- Tron-style moving grid - full screen -->
-  <div class="absolute inset-0 overflow-hidden">
-    <div class="tron-grid-container">
-      <div class="tron-grid"></div>
-      <div class="tron-grid" style="animation-delay: -2s;"></div>
-    </div>
-  </div>
 
   <!-- Main content -->
   <div class="relative z-10 flex flex-col items-center justify-center py-16 px-4">
@@ -628,39 +621,6 @@
 </div>
 
 <style>
-  /* Tron-style moving grid - seamless no gaps */
-  .tron-grid-container {
-    position: relative;
-    width: 100%;
-    height: 100%;
-    overflow: hidden;
-  }
-
-  .tron-grid {
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 200%;
-    background-image: 
-      linear-gradient(90deg, transparent 0%, transparent 48%, #84cc16 49%, #84cc16 51%, transparent 52%, transparent 100%),
-      linear-gradient(0deg, transparent 0%, transparent 48%, #84cc16 49%, #84cc16 51%, transparent 52%, transparent 100%);
-    background-size: 80px 80px;
-    background-position: 0 0;
-    opacity: 0.5;
-    animation: tron-move 4s linear infinite;
-    transform: rotateX(60deg);
-    will-change: transform;
-  }
-
-  @keyframes tron-move {
-    0% {
-      transform: rotateX(60deg) translateY(0%);
-    }
-    100% {
-      transform: rotateX(60deg) translateY(-100%);
-    }
-  }
 </style>
 
 <script>
@@ -788,6 +748,7 @@ function dragEnd(e) {
   if (isDragging) {
     console.log('Drag end');
     isDragging = false;
+    
   }
 }
 
