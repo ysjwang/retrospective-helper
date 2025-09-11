@@ -4,7 +4,7 @@
   <div class="absolute inset-0 opacity-20">
     <div class="grid grid-cols-12 gap-4 h-full">
       <% 12.times do |i| %>
-        <div class="border-l border-lime-400/30 animate-pulse" style="animation-delay: <%= i * 0.1 %>s;"></div>
+        <div class="border-l border-purple-400/30 animate-pulse" style="animation-delay: <%= i * 0.1 %>s;"></div>
       <% end %>
     </div>
   </div>
@@ -13,17 +13,17 @@
   <!-- Main content -->
   <div class="relative z-10 flex flex-col items-center justify-center py-16 px-4">
     <!-- Glowing title -->
-    <h1 class="text-4xl md:text-6xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-lime-400 via-lime-300 to-yellow-400 mb-8 text-center leading-tight">
-      <span class="drop-shadow-2xl" style="text-shadow: 0 0 20px #84cc16, 0 0 40px #84cc16, 0 0 60px #84cc16;">RETRO SESSION</span>
+    <h1 class="text-4xl md:text-6xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-purple-400 via-purple-300 to-pink-400 mb-8 text-center leading-tight">
+      <span class="drop-shadow-2xl" style="text-shadow: 0 0 20px #a855f7, 0 0 40px #a855f7, 0 0 60px #a855f7;">RETRO SESSION</span>
     </h1>
 
     <!-- Subtitle with neon effect -->
-    <p class="text-lg md:text-xl text-lime-300 mb-8 text-center max-w-2xl leading-relaxed" style="text-shadow: 0 0 10px #84cc16;">
+    <p class="text-lg md:text-xl text-purple-300 mb-8 text-center max-w-2xl leading-relaxed" style="text-shadow: 0 0 10px #a855f7;">
       Retrospective session created successfully
     </p>
 
     <!-- Back to Home Button -->
-    <%= link_to root_path, class: "group relative px-8 py-4 bg-gradient-to-r from-gray-700 to-gray-600 hover:from-gray-600 hover:to-gray-500 text-lime-300 font-bold text-lg rounded-lg transform transition-all duration-300 hover:scale-105 hover:shadow-2xl border-2 border-gray-500" do %>
+    <%= link_to root_path, class: "group relative px-8 py-4 bg-gradient-to-r from-gray-700 to-gray-600 hover:from-gray-600 hover:to-gray-500 text-purple-300 font-bold text-lg rounded-lg transform transition-all duration-300 hover:scale-105 hover:shadow-2xl border-2 border-gray-500" do %>
       <span class="relative z-10 tracking-wider" style="text-shadow: 0 0 10px #000000;">
         ← BACK TO HOME
       </span>
@@ -31,7 +31,7 @@
 
     <!-- Decorative elements -->
     <div class="mt-16 flex space-x-8">
-      <div class="w-4 h-4 bg-lime-400 rounded-full animate-ping"></div>
+      <div class="w-4 h-4 bg-purple-400 rounded-full animate-ping"></div>
       <div class="w-4 h-4 bg-red-500 rounded-full animate-ping" style="animation-delay: 0.5s;"></div>
       <div class="w-4 h-4 bg-purple-500 rounded-full animate-ping" style="animation-delay: 1s;"></div>
     </div>
@@ -40,7 +40,7 @@
   <!-- Trello Board Section -->
   <div class="relative z-10 w-full max-w-7xl mx-auto px-4 py-8">
     <!-- Board Title -->
-    <h2 class="text-3xl font-bold text-lime-300 mb-8 text-center" style="text-shadow: 0 0 10px #84cc16;">
+    <h2 class="text-3xl font-bold text-purple-300 mb-8 text-center" style="text-shadow: 0 0 10px #a855f7;">
       Retrospective Board
     </h2>
 
@@ -48,22 +48,22 @@
     <!-- Trello Board Container -->
     <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
       <!-- Continue Column -->
-      <div class="bg-gray-800/50 border-2 border-lime-400 rounded-lg p-4 min-h-[400px]">
+      <div class="bg-gray-800/50 border-2 border-purple-400 rounded-lg p-4 min-h-[400px]">
         <div class="flex items-center justify-between mb-4">
-          <h3 class="text-xl font-bold text-lime-300" style="text-shadow: 0 0 10px #84cc16;">
+          <h3 class="text-xl font-bold text-purple-300" style="text-shadow: 0 0 10px #a855f7;">
             Continue
           </h3>
-          <span class="bg-lime-600 text-black px-2 py-1 rounded-full text-sm font-bold">
+          <span class="bg-purple-600 text-white px-2 py-1 rounded-full text-sm font-bold">
             <%= @retrospective_session.retrospective_items.continue.count %>
           </span>
         </div>
         <div class="space-y-3" id="continue-column">
           <% @retrospective_session.retrospective_items.continue.each do |item| %>
-            <div class="bg-gray-700/50 border border-lime-400/30 rounded-lg p-3 hover:bg-gray-700/70 transition-colors duration-200 relative group" data-item-id="<%= item.id %>">
+            <div class="bg-gray-700/50 border border-purple-400/30 rounded-lg p-3 hover:bg-gray-700/70 transition-colors duration-200 relative group" data-item-id="<%= item.id %>">
               <!-- Edit button -->
               <button 
                 onclick="openEditModal(<%= item.id %>)" 
-                class="absolute top-2 right-2 text-lime-400 hover:text-lime-300 opacity-0 group-hover:opacity-100 transition-opacity duration-200 p-1 hover:bg-lime-400/20 rounded"
+                class="absolute top-2 right-2 text-purple-400 hover:text-purple-300 opacity-0 group-hover:opacity-100 transition-opacity duration-200 p-1 hover:bg-purple-400/20 rounded"
                 title="Edit item"
               >
                 <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -72,11 +72,11 @@
               </button>
               
               <% if item.name.present? %>
-                <h4 class="text-lime-200 font-semibold mb-2 pr-8" style="text-shadow: 0 0 5px #84cc16;">
+                <h4 class="text-purple-200 font-semibold mb-2 pr-8" style="text-shadow: 0 0 5px #a855f7;">
                   <%= item.name %>
                 </h4>
               <% else %>
-                <h4 class="text-lime-200 font-semibold mb-2 italic pr-8" style="text-shadow: 0 0 5px #84cc16;">
+                <h4 class="text-purple-200 font-semibold mb-2 italic pr-8" style="text-shadow: 0 0 5px #a855f7;">
                   (No title)
                 </h4>
               <% end %>
@@ -93,7 +93,7 @@
                 </p>
               <% end %>
               <% if item.due_date.present? %>
-                <div class="text-xs text-lime-400">
+                <div class="text-xs text-purple-400">
                   Due: <%= item.due_date.strftime("%b %d, %Y") %>
                 </div>
               <% end %>
@@ -291,14 +291,14 @@
 
   <!-- Link Sharing Section -->
   <div class="relative z-10 w-full max-w-4xl mx-auto px-4 py-8">
-    <div class="bg-gray-800/50 border-2 border-lime-400 rounded-lg p-8">
-      <h3 class="text-2xl font-bold text-lime-300 mb-6 text-center" style="text-shadow: 0 0 10px #84cc16;">
+    <div class="bg-gray-800/50 border-2 border-purple-400 rounded-lg p-8">
+      <h3 class="text-2xl font-bold text-purple-300 mb-6 text-center" style="text-shadow: 0 0 10px #a855f7;">
         Share this session with your team
       </h3>
       
       <!-- UUID Input Field and Copy Button -->
       <div class="w-full max-w-2xl mx-auto mb-6">
-        <label class="block text-lime-300 text-sm font-bold mb-2 text-center" style="text-shadow: 0 0 10px #84cc16;">
+        <label class="block text-purple-300 text-sm font-bold mb-2 text-center" style="text-shadow: 0 0 10px #a855f7;">
           Session ID (UUID)
         </label>
         <div class="flex items-center space-x-4">
@@ -307,15 +307,15 @@
             type="text" 
             value="<%= @retrospective_session.uuid %>" 
             readonly 
-            class="flex-1 px-6 py-4 bg-gray-800/50 border-2 border-lime-400 rounded-lg text-lime-300 font-mono text-lg text-center focus:outline-none focus:border-lime-300 focus:ring-2 focus:ring-lime-400/20"
-            style="text-shadow: 0 0 10px #84cc16;"
+            class="flex-1 px-6 py-4 bg-gray-800/50 border-2 border-purple-400 rounded-lg text-purple-300 font-mono text-lg text-center focus:outline-none focus:border-purple-300 focus:ring-2 focus:ring-purple-400/20"
+            style="text-shadow: 0 0 10px #a855f7;"
             id="uuid-input"
           />
           
           <!-- Copy Button -->
           <button 
             onclick="copyToClipboard('uuid-input')" 
-            class="px-6 py-4 bg-gradient-to-r from-lime-600 to-lime-500 hover:from-lime-500 hover:to-lime-400 text-black font-bold text-lg rounded-lg transform transition-all duration-300 hover:scale-105 hover:shadow-2xl border-2 border-lime-400"
+            class="px-6 py-4 bg-gradient-to-r from-purple-600 to-purple-500 hover:from-purple-500 hover:to-purple-400 text-black font-bold text-lg rounded-lg transform transition-all duration-300 hover:scale-105 hover:shadow-2xl border-2 border-purple-400"
             id="copy-uuid-button"
           >
             COPY
@@ -325,7 +325,7 @@
 
       <!-- Short URL Input Field and Copy Button -->
       <div class="w-full max-w-2xl mx-auto">
-        <label class="block text-lime-300 text-sm font-bold mb-2 text-center" style="text-shadow: 0 0 10px #84cc16;">
+        <label class="block text-purple-300 text-sm font-bold mb-2 text-center" style="text-shadow: 0 0 10px #a855f7;">
           Short URL
         </label>
         <div class="flex items-center space-x-4">
@@ -334,15 +334,15 @@
             type="text" 
             value="<%= request.base_url %>/retro/<%= @retrospective_session.uuid %>" 
             readonly 
-            class="flex-1 px-6 py-4 bg-gray-800/50 border-2 border-lime-400 rounded-lg text-lime-300 font-mono text-lg text-center focus:outline-none focus:border-lime-300 focus:ring-2 focus:ring-lime-400/20"
-            style="text-shadow: 0 0 10px #84cc16;"
+            class="flex-1 px-6 py-4 bg-gray-800/50 border-2 border-purple-400 rounded-lg text-purple-300 font-mono text-lg text-center focus:outline-none focus:border-purple-300 focus:ring-2 focus:ring-purple-400/20"
+            style="text-shadow: 0 0 10px #a855f7;"
             id="url-input"
           />
           
           <!-- Copy Button -->
           <button 
             onclick="copyToClipboard('url-input')" 
-            class="px-6 py-4 bg-gradient-to-r from-lime-600 to-lime-500 hover:from-lime-500 hover:to-lime-400 text-black font-bold text-lg rounded-lg transform transition-all duration-300 hover:scale-105 hover:shadow-2xl border-2 border-lime-400"
+            class="px-6 py-4 bg-gradient-to-r from-purple-600 to-purple-500 hover:from-purple-500 hover:to-purple-400 text-black font-bold text-lg rounded-lg transform transition-all duration-300 hover:scale-105 hover:shadow-2xl border-2 border-purple-400"
             id="copy-url-button"
           >
             COPY
@@ -350,7 +350,7 @@
         </div>
         
         <!-- Copy feedback message -->
-        <div id="copy-feedback" class="text-center mt-4 text-lime-300 text-lg hidden" style="text-shadow: 0 0 10px #84cc16;">
+        <div id="copy-feedback" class="text-center mt-4 text-purple-300 text-lg hidden" style="text-shadow: 0 0 10px #a855f7;">
           ✓ Copied to clipboard!
         </div>
       </div>
@@ -358,13 +358,13 @@
   </div>
 
   <!-- Bottom neon line -->
-  <div class="absolute bottom-0 left-0 right-0 h-1 bg-gradient-to-r from-transparent via-lime-400 to-transparent"></div>
+  <div class="absolute bottom-0 left-0 right-0 h-1 bg-gradient-to-r from-transparent via-purple-400 to-transparent"></div>
 
   <!-- Floating Add Button -->
   <button 
     onclick="openModal()" 
-    class="fixed bottom-8 right-8 w-16 h-16 bg-gradient-to-r from-lime-600 to-lime-500 hover:from-lime-500 hover:to-lime-400 text-black font-bold text-2xl rounded-full transform transition-all duration-300 hover:scale-110 hover:shadow-2xl border-2 border-lime-400 z-50 flex items-center justify-center"
-    style="box-shadow: 0 0 20px #84cc16, 0 0 40px #84cc16;"
+    class="fixed bottom-8 right-8 w-16 h-16 bg-gradient-to-r from-purple-600 to-purple-500 hover:from-purple-500 hover:to-purple-400 text-black font-bold text-2xl rounded-full transform transition-all duration-300 hover:scale-110 hover:shadow-2xl border-2 border-purple-400 z-50 flex items-center justify-center"
+    style="box-shadow: 0 0 20px #a855f7, 0 0 40px #a855f7;"
   >
     +
   </button>
@@ -372,25 +372,25 @@
 
 <!-- Modal -->
 <div id="retrospective-modal" class="fixed inset-0 z-50 hidden">
-  <div id="modal-content" class="bg-gray-900 border-2 border-lime-400 rounded-lg w-full max-w-sm relative shadow-2xl" style="position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); width: 80%; max-width: 320px;">
+  <div id="modal-content" class="bg-gray-900 border-2 border-purple-400 rounded-lg w-full max-w-sm relative shadow-2xl" style="position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); width: 80%; max-width: 320px;">
     <!-- Draggable header area -->
-    <div id="modal-drag-handle" class="bg-lime-400/30 rounded-t-lg cursor-move flex items-center justify-between px-4 py-3 border-b border-lime-400/50">
+    <div id="modal-drag-handle" class="bg-purple-400/30 rounded-t-lg cursor-move flex items-center justify-between px-4 py-3 border-b border-purple-400/50">
       <!-- Drag indicator -->
       <div class="flex items-center space-x-1">
-        <div class="w-1.5 h-1.5 bg-lime-400 rounded-full"></div>
-        <div class="w-1.5 h-1.5 bg-lime-400 rounded-full"></div>
-        <div class="w-1.5 h-1.5 bg-lime-400 rounded-full"></div>
+        <div class="w-1.5 h-1.5 bg-purple-400 rounded-full"></div>
+        <div class="w-1.5 h-1.5 bg-purple-400 rounded-full"></div>
+        <div class="w-1.5 h-1.5 bg-purple-400 rounded-full"></div>
       </div>
       
       <!-- Modal title in header -->
-      <h2 class="text-lg font-bold text-lime-300" style="text-shadow: 0 0 10px #84cc16;">
+      <h2 class="text-lg font-bold text-purple-300" style="text-shadow: 0 0 10px #a855f7;">
         Add Item
       </h2>
       
       <!-- Close button -->
       <button 
         onclick="closeModal()" 
-        class="text-lime-400 hover:text-lime-300 text-xl font-bold hover:bg-lime-400/20 rounded-full w-6 h-6 flex items-center justify-center"
+        class="text-purple-400 hover:text-purple-300 text-xl font-bold hover:bg-purple-400/20 rounded-full w-6 h-6 flex items-center justify-center"
       >
         ×
       </button>
@@ -403,13 +403,13 @@
     <form id="retrospective-form" onsubmit="submitForm(event)">
       <!-- Category selection -->
       <div class="mb-4">
-        <label class="block text-lime-300 text-xs font-bold mb-1" style="text-shadow: 0 0 10px #84cc16;">
+        <label class="block text-purple-300 text-xs font-bold mb-1" style="text-shadow: 0 0 10px #a855f7;">
           Category *
         </label>
         <select 
           id="category" 
           required
-          class="w-full px-3 py-2 bg-gray-800 border-2 border-lime-400 rounded-lg text-lime-300 focus:outline-none focus:border-lime-300 focus:ring-2 focus:ring-lime-400/20 text-sm"
+          class="w-full px-3 py-2 bg-gray-800 border-2 border-purple-400 rounded-lg text-purple-300 focus:outline-none focus:border-purple-300 focus:ring-2 focus:ring-purple-400/20 text-sm"
         >
           <option value="">Select a category</option>
           <option value="0">Continue</option>
@@ -421,55 +421,55 @@
       
       <!-- Name field -->
       <div class="mb-4">
-        <label class="block text-lime-300 text-xs font-bold mb-1" style="text-shadow: 0 0 10px #84cc16;">
+        <label class="block text-purple-300 text-xs font-bold mb-1" style="text-shadow: 0 0 10px #a855f7;">
           Name
         </label>
         <input 
           type="text" 
           id="name" 
           maxlength="255"
-          class="w-full px-3 py-2 bg-gray-800 border-2 border-lime-400 rounded-lg text-lime-300 focus:outline-none focus:border-lime-300 focus:ring-2 focus:ring-lime-400/20 text-sm"
+          class="w-full px-3 py-2 bg-gray-800 border-2 border-purple-400 rounded-lg text-purple-300 focus:outline-none focus:border-purple-300 focus:ring-2 focus:ring-purple-400/20 text-sm"
           placeholder="Enter item name (optional)"
         />
       </div>
       
       <!-- Person field -->
       <div class="mb-4">
-        <label class="block text-lime-300 text-xs font-bold mb-1" style="text-shadow: 0 0 10px #84cc16;">
+        <label class="block text-purple-300 text-xs font-bold mb-1" style="text-shadow: 0 0 10px #a855f7;">
           Person
         </label>
         <input 
           type="text" 
           id="person" 
           maxlength="255"
-          class="w-full px-3 py-2 bg-gray-800 border-2 border-lime-400 rounded-lg text-lime-300 focus:outline-none focus:border-lime-300 focus:ring-2 focus:ring-lime-400/20 text-sm"
+          class="w-full px-3 py-2 bg-gray-800 border-2 border-purple-400 rounded-lg text-purple-300 focus:outline-none focus:border-purple-300 focus:ring-2 focus:ring-purple-400/20 text-sm"
           placeholder="Enter person name (optional)"
         />
       </div>
       
       <!-- Comments field -->
       <div class="mb-4">
-        <label class="block text-lime-300 text-xs font-bold mb-1" style="text-shadow: 0 0 10px #84cc16;">
+        <label class="block text-purple-300 text-xs font-bold mb-1" style="text-shadow: 0 0 10px #a855f7;">
           Comments
         </label>
         <textarea 
           id="comments" 
           rows="3" 
           maxlength="1000"
-          class="w-full px-3 py-2 bg-gray-800 border-2 border-lime-400 rounded-lg text-lime-300 focus:outline-none focus:border-lime-300 focus:ring-2 focus:ring-lime-400/20 resize-none text-sm"
+          class="w-full px-3 py-2 bg-gray-800 border-2 border-purple-400 rounded-lg text-purple-300 focus:outline-none focus:border-purple-300 focus:ring-2 focus:ring-purple-400/20 resize-none text-sm"
           placeholder="Enter comments (optional)"
         ></textarea>
       </div>
       
       <!-- Due date field -->
       <div class="mb-6">
-        <label class="block text-lime-300 text-xs font-bold mb-1" style="text-shadow: 0 0 10px #84cc16;">
+        <label class="block text-purple-300 text-xs font-bold mb-1" style="text-shadow: 0 0 10px #a855f7;">
           Due Date
         </label>
         <input 
           type="date" 
           id="due_date" 
-          class="w-full px-3 py-2 bg-gray-800 border-2 border-lime-400 rounded-lg text-lime-300 focus:outline-none focus:border-lime-300 focus:ring-2 focus:ring-lime-400/20 text-sm"
+          class="w-full px-3 py-2 bg-gray-800 border-2 border-purple-400 rounded-lg text-purple-300 focus:outline-none focus:border-purple-300 focus:ring-2 focus:ring-purple-400/20 text-sm"
         />
       </div>
       
@@ -478,13 +478,13 @@
         <button 
           type="button" 
           onclick="closeModal()" 
-          class="flex-1 px-4 py-2 bg-gray-700 hover:bg-gray-600 text-lime-300 font-bold rounded-lg transform transition-all duration-300 hover:scale-105 border-2 border-gray-500 text-sm"
+          class="flex-1 px-4 py-2 bg-gray-700 hover:bg-gray-600 text-purple-300 font-bold rounded-lg transform transition-all duration-300 hover:scale-105 border-2 border-gray-500 text-sm"
         >
           Cancel
         </button>
         <button 
           type="submit" 
-          class="flex-1 px-4 py-2 bg-gradient-to-r from-lime-600 to-lime-500 hover:from-lime-500 hover:to-lime-400 text-black font-bold rounded-lg transform transition-all duration-300 hover:scale-105 hover:shadow-2xl border-2 border-lime-400 text-sm"
+          class="flex-1 px-4 py-2 bg-gradient-to-r from-purple-600 to-purple-500 hover:from-purple-500 hover:to-purple-400 text-black font-bold rounded-lg transform transition-all duration-300 hover:scale-105 hover:shadow-2xl border-2 border-purple-400 text-sm"
         >
           Save
         </button>
@@ -496,25 +496,25 @@
 
 <!-- Edit Modal -->
 <div id="edit-retrospective-modal" class="fixed inset-0 z-50 hidden">
-  <div id="edit-modal-content" class="bg-gray-900 border-2 border-lime-400 rounded-lg w-full max-w-sm relative shadow-2xl" style="position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); width: 80%; max-width: 320px;">
+  <div id="edit-modal-content" class="bg-gray-900 border-2 border-purple-400 rounded-lg w-full max-w-sm relative shadow-2xl" style="position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); width: 80%; max-width: 320px;">
     <!-- Draggable header area -->
-    <div id="edit-modal-drag-handle" class="bg-lime-400/30 rounded-t-lg cursor-move flex items-center justify-between px-4 py-3 border-b border-lime-400/50">
+    <div id="edit-modal-drag-handle" class="bg-purple-400/30 rounded-t-lg cursor-move flex items-center justify-between px-4 py-3 border-b border-purple-400/50">
       <!-- Drag indicator -->
       <div class="flex items-center space-x-1">
-        <div class="w-1.5 h-1.5 bg-lime-400 rounded-full"></div>
-        <div class="w-1.5 h-1.5 bg-lime-400 rounded-full"></div>
-        <div class="w-1.5 h-1.5 bg-lime-400 rounded-full"></div>
+        <div class="w-1.5 h-1.5 bg-purple-400 rounded-full"></div>
+        <div class="w-1.5 h-1.5 bg-purple-400 rounded-full"></div>
+        <div class="w-1.5 h-1.5 bg-purple-400 rounded-full"></div>
       </div>
       
       <!-- Modal title in header -->
-      <h2 class="text-lg font-bold text-lime-300" style="text-shadow: 0 0 10px #84cc16;">
+      <h2 class="text-lg font-bold text-purple-300" style="text-shadow: 0 0 10px #a855f7;">
         Edit Item
       </h2>
       
       <!-- Close button -->
       <button 
         onclick="closeEditModal()" 
-        class="text-lime-400 hover:text-lime-300 text-xl font-bold hover:bg-lime-400/20 rounded-full w-6 h-6 flex items-center justify-center"
+        class="text-purple-400 hover:text-purple-300 text-xl font-bold hover:bg-purple-400/20 rounded-full w-6 h-6 flex items-center justify-center"
       >
         ×
       </button>
@@ -529,13 +529,13 @@
       
       <!-- Category selection -->
       <div class="mb-4">
-        <label class="block text-lime-300 text-xs font-bold mb-1" style="text-shadow: 0 0 10px #84cc16;">
+        <label class="block text-purple-300 text-xs font-bold mb-1" style="text-shadow: 0 0 10px #a855f7;">
           Category *
         </label>
         <select 
           id="edit-category" 
           required
-          class="w-full px-3 py-2 bg-gray-800 border-2 border-lime-400 rounded-lg text-lime-300 focus:outline-none focus:border-lime-300 focus:ring-2 focus:ring-lime-400/20 text-sm"
+          class="w-full px-3 py-2 bg-gray-800 border-2 border-purple-400 rounded-lg text-purple-300 focus:outline-none focus:border-purple-300 focus:ring-2 focus:ring-purple-400/20 text-sm"
         >
           <option value="">Select a category</option>
           <option value="0">Continue</option>
@@ -547,55 +547,55 @@
       
       <!-- Name field -->
       <div class="mb-4">
-        <label class="block text-lime-300 text-xs font-bold mb-1" style="text-shadow: 0 0 10px #84cc16;">
+        <label class="block text-purple-300 text-xs font-bold mb-1" style="text-shadow: 0 0 10px #a855f7;">
           Name
         </label>
         <input 
           type="text" 
           id="edit-name" 
           maxlength="255"
-          class="w-full px-3 py-2 bg-gray-800 border-2 border-lime-400 rounded-lg text-lime-300 focus:outline-none focus:border-lime-300 focus:ring-2 focus:ring-lime-400/20 text-sm"
+          class="w-full px-3 py-2 bg-gray-800 border-2 border-purple-400 rounded-lg text-purple-300 focus:outline-none focus:border-purple-300 focus:ring-2 focus:ring-purple-400/20 text-sm"
           placeholder="Enter item name (optional)"
         />
       </div>
       
       <!-- Person field -->
       <div class="mb-4">
-        <label class="block text-lime-300 text-xs font-bold mb-1" style="text-shadow: 0 0 10px #84cc16;">
+        <label class="block text-purple-300 text-xs font-bold mb-1" style="text-shadow: 0 0 10px #a855f7;">
           Person
         </label>
         <input 
           type="text" 
           id="edit-person" 
           maxlength="255"
-          class="w-full px-3 py-2 bg-gray-800 border-2 border-lime-400 rounded-lg text-lime-300 focus:outline-none focus:border-lime-300 focus:ring-2 focus:ring-lime-400/20 text-sm"
+          class="w-full px-3 py-2 bg-gray-800 border-2 border-purple-400 rounded-lg text-purple-300 focus:outline-none focus:border-purple-300 focus:ring-2 focus:ring-purple-400/20 text-sm"
           placeholder="Enter person name (optional)"
         />
       </div>
       
       <!-- Comments field -->
       <div class="mb-4">
-        <label class="block text-lime-300 text-xs font-bold mb-1" style="text-shadow: 0 0 10px #84cc16;">
+        <label class="block text-purple-300 text-xs font-bold mb-1" style="text-shadow: 0 0 10px #a855f7;">
           Comments
         </label>
         <textarea 
           id="edit-comments" 
           rows="3" 
           maxlength="1000"
-          class="w-full px-3 py-2 bg-gray-800 border-2 border-lime-400 rounded-lg text-lime-300 focus:outline-none focus:border-lime-300 focus:ring-2 focus:ring-lime-400/20 resize-none text-sm"
+          class="w-full px-3 py-2 bg-gray-800 border-2 border-purple-400 rounded-lg text-purple-300 focus:outline-none focus:border-purple-300 focus:ring-2 focus:ring-purple-400/20 resize-none text-sm"
           placeholder="Enter comments (optional)"
         ></textarea>
       </div>
       
       <!-- Due date field -->
       <div class="mb-6">
-        <label class="block text-lime-300 text-xs font-bold mb-1" style="text-shadow: 0 0 10px #84cc16;">
+        <label class="block text-purple-300 text-xs font-bold mb-1" style="text-shadow: 0 0 10px #a855f7;">
           Due Date
         </label>
         <input 
           type="date" 
           id="edit-due_date" 
-          class="w-full px-3 py-2 bg-gray-800 border-2 border-lime-400 rounded-lg text-lime-300 focus:outline-none focus:border-lime-300 focus:ring-2 focus:ring-lime-400/20 text-sm"
+          class="w-full px-3 py-2 bg-gray-800 border-2 border-purple-400 rounded-lg text-purple-300 focus:outline-none focus:border-purple-300 focus:ring-2 focus:ring-purple-400/20 text-sm"
         />
       </div>
       
@@ -604,13 +604,13 @@
         <button 
           type="button" 
           onclick="closeEditModal()" 
-          class="flex-1 px-4 py-2 bg-gray-700 hover:bg-gray-600 text-lime-300 font-bold rounded-lg transform transition-all duration-300 hover:scale-105 border-2 border-gray-500 text-sm"
+          class="flex-1 px-4 py-2 bg-gray-700 hover:bg-gray-600 text-purple-300 font-bold rounded-lg transform transition-all duration-300 hover:scale-105 border-2 border-gray-500 text-sm"
         >
           Cancel
         </button>
         <button 
           type="submit" 
-          class="flex-1 px-4 py-2 bg-gradient-to-r from-lime-600 to-lime-500 hover:from-lime-500 hover:to-lime-400 text-black font-bold rounded-lg transform transition-all duration-300 hover:scale-105 hover:shadow-2xl border-2 border-lime-400 text-sm"
+          class="flex-1 px-4 py-2 bg-gradient-to-r from-purple-600 to-purple-500 hover:from-purple-500 hover:to-purple-400 text-black font-bold rounded-lg transform transition-all duration-300 hover:scale-105 hover:shadow-2xl border-2 border-purple-400 text-sm"
         >
           Update
         </button>
@@ -639,13 +639,13 @@ function copyToClipboard(inputId) {
     // Show feedback
     copyFeedback.classList.remove('hidden');
     copyButton.textContent = 'COPIED!';
-    copyButton.classList.add('from-green-500', 'to-green-400');
+    copyButton.classList.add('from-purple-500', 'to-purple-400');
     
     // Reset after 2 seconds
     setTimeout(function() {
       copyFeedback.classList.add('hidden');
       copyButton.textContent = 'COPY';
-      copyButton.classList.remove('from-green-500', 'to-green-400');
+      copyButton.classList.remove('from-purple-500', 'to-purple-400');
     }, 2000);
   }).catch(function(err) {
     console.error('Could not copy text: ', err);
@@ -654,12 +654,12 @@ function copyToClipboard(inputId) {
       document.execCommand('copy');
       copyFeedback.classList.remove('hidden');
       copyButton.textContent = 'COPIED!';
-      copyButton.classList.add('from-green-500', 'to-green-400');
+      copyButton.classList.add('from-purple-500', 'to-purple-400');
       
       setTimeout(function() {
         copyFeedback.classList.add('hidden');
         copyButton.textContent = 'COPY';
-        copyButton.classList.remove('from-green-500', 'to-green-400');
+        copyButton.classList.remove('from-purple-500', 'to-purple-400');
       }, 2000);
     } catch (err) {
       console.error('Fallback copy failed: ', err);
@@ -1023,10 +1023,10 @@ function createItemElement(item, columnId) {
   let borderColor, textColor, textShadow, dueDateColor;
   switch(columnId) {
     case 'continue-column':
-      borderColor = 'border-lime-400/30';
-      textColor = 'text-lime-200';
-      textShadow = 'text-shadow: 0 0 5px #84cc16;';
-      dueDateColor = 'text-lime-400';
+      borderColor = 'border-purple-400/30';
+      textColor = 'text-purple-200';
+      textShadow = 'text-shadow: 0 0 5px #a855f7;';
+      dueDateColor = 'text-purple-400';
       break;
     case 'start-column':
       borderColor = 'border-blue-400/30';
@@ -1060,9 +1060,9 @@ function createItemElement(item, columnId) {
   let buttonColor, buttonHoverColor, buttonBgColor;
   switch(columnId) {
     case 'continue-column':
-      buttonColor = 'text-lime-400';
-      buttonHoverColor = 'hover:text-lime-300';
-      buttonBgColor = 'hover:bg-lime-400/20';
+      buttonColor = 'text-purple-400';
+      buttonHoverColor = 'hover:text-purple-300';
+      buttonBgColor = 'hover:bg-purple-400/20';
       break;
     case 'start-column':
       buttonColor = 'text-blue-400';
@@ -1107,7 +1107,7 @@ function createItemElement(item, columnId) {
 function updateColumnCounters() {
   // Update each column's counter
   const columns = [
-    { id: 'continue-column', counterSelector: '.bg-lime-600' },
+    { id: 'continue-column', counterSelector: '.bg-purple-600' },
     { id: 'start-column', counterSelector: '.bg-blue-600' },
     { id: 'stop-column', counterSelector: '.bg-red-600' },
     { id: 'misc-column', counterSelector: '.bg-purple-600' }
@@ -1180,7 +1180,7 @@ function submitForm(event) {
 function showSuccessMessage() {
   // Create a temporary success message
   const successDiv = document.createElement('div');
-  successDiv.className = 'fixed top-4 right-4 bg-green-600 text-white px-6 py-3 rounded-lg shadow-lg z-50 transform transition-all duration-300';
+  successDiv.className = 'fixed top-4 right-4 bg-purple-600 text-white px-6 py-3 rounded-lg shadow-lg z-50 transform transition-all duration-300';
   successDiv.textContent = '✓ Retrospective item saved successfully!';
   document.body.appendChild(successDiv);
   
@@ -1404,10 +1404,10 @@ function updateItemInColumn(item) {
     
     switch(columnId) {
       case 'continue-column':
-        borderColor = 'border-lime-400/30';
-        textColor = 'text-lime-200';
-        textShadow = 'text-shadow: 0 0 5px #84cc16;';
-        dueDateColor = 'text-lime-400';
+        borderColor = 'border-purple-400/30';
+        textColor = 'text-purple-200';
+        textShadow = 'text-shadow: 0 0 5px #a855f7;';
+        dueDateColor = 'text-purple-400';
         break;
       case 'start-column':
         borderColor = 'border-blue-400/30';
@@ -1498,7 +1498,7 @@ function getColumnIdForCategory(category) {
 function showSuccessMessage(message) {
   // Create a temporary success message
   const successDiv = document.createElement('div');
-  successDiv.className = 'fixed top-4 right-4 bg-green-600 text-white px-6 py-3 rounded-lg shadow-lg z-50 transform transition-all duration-300';
+  successDiv.className = 'fixed top-4 right-4 bg-purple-600 text-white px-6 py-3 rounded-lg shadow-lg z-50 transform transition-all duration-300';
   successDiv.textContent = message;
   document.body.appendChild(successDiv);
   
